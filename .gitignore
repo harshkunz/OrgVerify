@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Production
+/build
+/dist
+
+# Logs
+*.log
+
+# Editor
+.vscode/
+.idea/
+.DS_Store
+
+# Uploads
+uploads/
+public/uploads/
+
+# Database
+*.db
+*.sqlite
+data/
