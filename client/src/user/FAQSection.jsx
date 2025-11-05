@@ -97,36 +97,36 @@ const FAQSection = () => {
   };
 
   return (
-    <section className="py-16 px-4 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <section className="py-12 px-8 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl mb-4 shadow-lg">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-3xl mb-4 shadow-lg">
             <FiHelpCircle className="w-8 h-8 text-white" />
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+          <h2 className="text-3xl md:text-3xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-normal">
             Frequently Asked Questions
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Find answers to common questions about organization verification and employee management.
+          <p className="text-md text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+            Find answers to common questions about platform.
           </p>
         </div>
 
         {/* Search Bar */}
         <div className="mb-8">
           <div className="relative max-w-2xl mx-auto">
-            <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <FiSearch className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
             <input
               type="text"
               placeholder="Search FAQs..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-12 py-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-900 transition-all outline-none shadow-sm"
+              className="w-full pl-13 pr-12 py-3 rounded-3xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:border-blue-500 transition-all outline-none shadow-sm"
             />
             {searchQuery && (
               <button
                 onClick={handleReset}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                className="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                 aria-label="Clear search"
               >
                 <FiRefreshCw className="w-5 h-5" />
@@ -136,7 +136,7 @@ const FAQSection = () => {
 
           {/* Popular Tags */}
           {!searchQuery && (
-            <div className="flex flex-wrap justify-center gap-2 mt-4">
+            <div className="flex flex-wrap justify-center gap-2 mt-6">
               {popularTags.map((tag) => (
                 <button
                   key={tag}
@@ -153,8 +153,8 @@ const FAQSection = () => {
         {/* Search Results Info */}
         {searchQuery && (
           <div className="text-center mb-6">
-            <p className="text-gray-600 dark:text-gray-400">
-              Found <span className="font-semibold text-blue-600 dark:text-blue-400">{filteredFAQs.length}</span>{' '}
+            <p className="text-gray-500 dark:text-gray-400">
+              Found <span className="font-semibold text-blue-500 dark:text-blue-400">{filteredFAQs.length}</span>{' '}
               {filteredFAQs.length === 1 ? 'result' : 'results'} for "{searchQuery}"
             </p>
           </div>
@@ -166,14 +166,14 @@ const FAQSection = () => {
             {filteredFAQs.slice(0, displayCount).map((faq, index) => (
               <div
                 key={index}
-                className="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700"
+                className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700"
               >
                 <button
                   onClick={() => toggleFAQ(index)}
                   className="w-full flex items-center justify-between p-6 text-left hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors"
                   aria-expanded={activeIndex === index}
                 >
-                  <span className="text-lg font-semibold text-gray-900 dark:text-white pr-8">
+                  <span className="text-base text-black dark:text-white pr-8">
                     {faq.question}
                   </span>
                   <span className="flex-shrink-0">
@@ -187,7 +187,7 @@ const FAQSection = () => {
 
                 {activeIndex === index && (
                   <div className="px-6 pb-6 pt-2 animate-fadeIn">
-                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
+                    <p className="text-sm text-gray-800 dark:text-gray-300 leading-relaxed mb-3">
                       {faq.answer}
                     </p>
                     <div className="flex flex-wrap gap-2">
@@ -206,14 +206,14 @@ const FAQSection = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-12">
+          <div className="text-center py-10">
             <div className="text-gray-400 dark:text-gray-600 mb-4">
               <FiSearch className="w-16 h-16 mx-auto" />
             </div>
-            <p className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            <p className="text-xl text-gray-800 dark:text-gray-300 mb-2">
               No results found
             </p>
-            <p className="text-gray-500 dark:text-gray-400 mb-6">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
               We couldn't find any FAQs matching "{searchQuery}". Try these popular topics:
             </p>
             <div className="flex flex-wrap justify-center gap-2">
@@ -235,7 +235,7 @@ const FAQSection = () => {
           <div className="text-center">
             <button
               onClick={handleShowMore}
-              className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-xl shadow-md hover:shadow-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-3xl shadow-md hover:shadow-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
             >
               Show More
               <FiChevronDown className="ml-2 w-5 h-5" />
@@ -244,16 +244,16 @@ const FAQSection = () => {
         )}
 
         {/* Contact Support */}
-        <div className="mt-16 text-center bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 shadow-xl">
-          <h3 className="text-2xl font-bold text-white mb-3">
+        <div className="mt-12 text-center bg-gradient-to-r from-blue-500 to-purple-500 rounded-5xl p-8 shadow-xl">
+          <h3 className="text-xl text-white mb-3">
             Can't find what you're looking for?
           </h3>
-          <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+          <p className="text-sm text-white mb-6 max-w-2xl mx-auto">
             Our support team is ready to help you with any questions about organization verification or employee management.
           </p>
           <a
             href="mailto:support@orgverify.com"
-            className="inline-flex items-center px-8 py-3.5 bg-white text-blue-600 font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
+            className="inline-flex items-center px-6 py-3 bg-white text-purple-600 rounded-3xl shadow-md hover:shadow-lg transition-all duration-300 hover:text-black"
           >
             <FiMail className="mr-2" />
             Contact Support Team

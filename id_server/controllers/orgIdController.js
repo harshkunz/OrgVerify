@@ -152,24 +152,25 @@ export const uploadOrgIDsExcel = async (req, res, next) => {
   }
 };
 
+
 export const createOrgID = async (req, res) => {
   const { firstName, middleName, lastName, gender, phone_no, dateOfBirth, address } = req.body;
-
-  if (!firstName || !middleName || !lastName || !gender || !phone_no) {
+  
+  // Remove middleName from required validation
+  if (!firstName || !lastName || !gender || !phone_no) {
     return res.status(400).json({
       success: false,
-      message: 'Please provide all required fields: firstName, middleName, lastName, gender, phone_no'
+      message: 'Please provide all required fields: firstName, lastName, gender, phone_no'
     });
   }
 
   try {
     let orgIdNumber;
-    let retries = 3; // Retry up to 3 times in case of duplicate key error
-
+    let retries = 3;
     while (retries > 0) {
       try {
         orgIdNumber = await getNextSequence('orgId');
-        break; // Exit loop if successful
+        break;
       } catch (error) {
         if (error.code === 11000) {
           retries -= 1;
@@ -189,11 +190,11 @@ export const createOrgID = async (req, res) => {
 
     const existingID = await OrgID.findOne({
       firstName: firstName.trim(),
-      middleName: middleName.trim(),
+      middleName: middleName?.trim() || '', // Handle optional middleName
       lastName: lastName.trim(),
       gender: gender.trim()
     });
-
+    
     if (existingID) {
       return res.status(400).json({
         success: false,
@@ -203,30 +204,32 @@ export const createOrgID = async (req, res) => {
 
     const orgID = new OrgID({
       firstName: firstName.trim(),
-      middleName: middleName.trim(),
+      middleName: middleName?.trim() || '', // Handle optional middleName
       lastName: lastName.trim(),
       gender: gender.trim(),
       phone_no: phone_no.trim(),
       dateOfBirth: dateOfBirth || new Date(Date.now() - 22 * 365 * 24 * 60 * 60 * 1000).toISOString(),
       address: address || {},
-      orgIdNumber: orgIdNumber.toString() // Convert BigInt to string
+      orgIdNumber: orgIdNumber.toString()
     });
 
     await orgID.save();
-
+    
     res.status(201).json({
       success: true,
       orgID
     });
   } catch (error) {
     console.error('Error creating Organization ID:', error.message);
-
     res.status(500).json({
       success: false,
       error: error.message
     });
   }
 };
+
+
+
 
 export const searchOrgIDs = async (req, res) => {
   try {

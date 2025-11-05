@@ -12,7 +12,7 @@ import UserSignup from "./pages/UserSignup";
 import UserLogin from "./pages/UserLogin";
 import ForgotPassword from "./pages/ResetPassword";
 import UserLayout from "./user/UserLayout";
-import UserAddingPage from "./admin/UserAdding";
+
 import UserManagementPage from "./admin/UserManagementPage";
 import ExternalUserManagement from "./admin/ExternalUserManagement";
 import UserProfilePage from "./user/UserProfile";
@@ -22,6 +22,8 @@ import CompanyLayout from "./company/CompanyLayout";
 import CompanyDashboard from "./company/CompanyDashboard";
 import AboutPage from "./pages/AboutPage";
 import AdminSignup from "./pages/AdminSignup";
+import AdminHomePage from "./components/Pages/AdminHomePages";
+import UserAddingPage from "./admin/UserAdding";
 
 axios.defaults.withCredentials = true;
 
@@ -48,14 +50,6 @@ const App = () => {
             </LandingPage>
           } 
         />
-        <Route 
-          path="/about" 
-          element={
-            <LandingPage>
-              <AboutPage />
-            </LandingPage>
-          } 
-        />
 
         {/* Auth Routes - Pass currentUser and setCurrentUser */}
         <Route 
@@ -75,16 +69,7 @@ const App = () => {
           } 
         />
         <Route 
-          path="/admin-login" 
-          element={
-            <RequireGuest currentUser={currentUser}>
-              <AdminLogin setCurrentUser={setCurrentUser} />
-            </RequireGuest>
-          } 
-        />
-
-        <Route 
-          path="/admin-login" 
+          path="/admin/login" 
           element={
             <RequireGuest currentUser={currentUser}>
               <AdminLogin setCurrentUser={setCurrentUser} />
@@ -104,6 +89,7 @@ const App = () => {
         />
 
         {/* User Routes */}
+
         <Route 
           path="/user/profile" 
           element={
@@ -155,6 +141,15 @@ const App = () => {
 
         {/* Admin Routes */}
         <Route 
+          path="/admin" 
+          element={
+            <AdminLayout>
+              <AdminHomePage />
+            </AdminLayout>
+          } 
+        />
+
+        <Route 
           path="/admin/dashboard" 
           element={
             <AdminLayout>
@@ -162,14 +157,16 @@ const App = () => {
             </AdminLayout>
           } 
         />
+
         <Route 
-          path="/admin/add-user" 
+          path="/admin/create/users" 
           element={
             <AdminLayout>
               <UserAddingPage />
             </AdminLayout>
           } 
         />
+
         <Route 
           path="/admin/users" 
           element={
@@ -179,7 +176,7 @@ const App = () => {
           } 
         />
         <Route 
-          path="/admin/external-users" 
+          path="/admin/users/external" 
           element={
             <AdminLayout>
               <ExternalUserManagement />

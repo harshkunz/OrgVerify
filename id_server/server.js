@@ -8,7 +8,7 @@ import orgIdRouter from './routes/orgIdRoutes.js';
 import Counter from './models/Counter.js';
 dotenv.config()
 
-const PORT =  process.env.PORT || 6000;
+const PORT =  process.env.PORT || 7000;
 const app = express();
 
 app.use(
@@ -16,7 +16,6 @@ app.use(
     origin: [
       "http://localhost:5173",
       "http://localhost:5000",
-      "https://bonga-university-graduate-document.onrender.com",
     ],
     credentials: true,
   })
@@ -24,7 +23,7 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
-app.use('/api/org-ids', orgIdRouter);
+app.use('/id', orgIdRouter);
 
 
 app.get("/", (req, res) => {

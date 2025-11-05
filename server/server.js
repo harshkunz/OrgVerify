@@ -37,11 +37,8 @@ app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 app.use(
   cors({
     origin: [
-      "http://localhost:3000",
+      "http://localhost:7000",
       "http://localhost:5173",
-      "http://localhost:5174",
-      "http://172.20.144.1:3000",
-      "https://bonga-university-graduate-document.onrender.com",
     ],
     credentials: true,
   })
