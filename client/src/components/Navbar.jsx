@@ -45,14 +45,14 @@ const Navbar = () => {
           <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
         </Link>
         <Link 
-          to="/about" 
+          to="/" 
           className="relative text-black dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm transition-all duration-300 group"
         >
           About
           <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
         </Link>
         <Link 
-          to="/contact" 
+          to="/" 
           className="relative text-black dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm transition-all duration-300 group"
         >
           Contact
@@ -99,7 +99,7 @@ const Navbar = () => {
 
               {/* Admin Login Option */}
               <Link
-                to="/admin-login"
+                to="/admin/login"
                 onClick={() => setShowLoginDropdown(false)}
                 className="flex items-center space-x-3 px-4 py-3.5 hover:bg-gradient-to-r hover:from-purple-50 hover:to-blue-50 dark:hover:from-gray-700 dark:hover:to-gray-600 transition-all duration-300 group"
               >
