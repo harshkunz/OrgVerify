@@ -149,7 +149,7 @@ const LandingPage = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center font-semibld text-sm">
               <Link
-                to="/login"
+                to="/admin/login"
                 className="inline-flex px-6 py-3 items-center justify-center bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-3xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl"
               >
                 Work Now
