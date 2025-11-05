@@ -37,7 +37,7 @@ const upload = multer({
   fileFilter: fileFilter,
 });
 
-router.post('/', createOrgID);
+router.post('/create', createOrgID);
 router.get('/', getAllOrgIDs);
 router.get('/search', searchOrgIDs);
 router.get('/search/name', getOrgIDByName); // Search by name (first, middle, last)

@@ -72,7 +72,7 @@ const AdminSidebar = () => {
             </p>
             
             <Link
-              to="/admin/addingUser"
+              to="/admin/create/users"
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
                 isActive("/admin/addingUser")
                   ? "bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200"
@@ -86,7 +86,7 @@ const AdminSidebar = () => {
             </Link>
             
             <Link
-              to="/admin/usermanagement"
+              to="/admin/users"
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
                 isActive("/admin/usermanagement")
                   ? "bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200"
@@ -100,7 +100,7 @@ const AdminSidebar = () => {
             </Link>
             
             <Link
-              to="/admin/ExternalUserManagement"
+              to="/admin/users/external"
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
                 isActive("/admin/ExternalUserManagement")
                   ? "bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-200"
