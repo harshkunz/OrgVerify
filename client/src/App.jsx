@@ -77,7 +77,7 @@ const App = () => {
           } 
         />
         
-        <Route path="/admin-signup" element={<AdminSignup />} />
+        <Route path="/admin/signup" element={<AdminSignup />} />
 
         <Route 
           path="/reset-password" 
