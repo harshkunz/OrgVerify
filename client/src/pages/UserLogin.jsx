@@ -249,7 +249,7 @@ const UserLogin = ({ setCurrentUser }) => {
                 <span className="flex items-center justify-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 mr-2"
+                    className="h-4 w-4 mr-1"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
@@ -563,12 +563,11 @@ const UserLogin = ({ setCurrentUser }) => {
                     </div>
                   </motion.div>
 
-
                   {/* Login Button */}
                   <motion.button
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.7, duration: 0.3 }}
+                    transition={{ delay: 0.0 }}
                     whileHover={!loading ? { scale: 1.03 } : {}}
                     whileTap={!loading ? { scale: 0.97 } : {}}
                     onClick={handleLogin}
@@ -618,7 +617,7 @@ const UserLogin = ({ setCurrentUser }) => {
                       </>
                     )}
                   </motion.button>
-                </div> {/* <--- Added closing div here */}
+                </div>
 
                 {/* Divider */}
                 <motion.div

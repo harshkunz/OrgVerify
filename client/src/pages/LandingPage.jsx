@@ -167,7 +167,7 @@ const LandingPage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-14 px-8 bg-white dark:bg-gray-900">
+      <section className="py-12 px-8 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8">
             <h2 className="text-3xl md:text-4xl text-gray-900 dark:text-white mb-4">

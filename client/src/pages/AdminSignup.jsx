@@ -148,8 +148,8 @@ const AdminSignup = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    gender: "male",
-    role: "admin",
+    gender: "",
+    role: "",
   });
 
   const adminUrl = import.meta.env.VITE_ADMIN_ROUTE || "http://localhost:5000/api/admin";
@@ -248,8 +248,8 @@ const AdminSignup = () => {
 
   const handleAutoFill = () => {
     setFormData({
-      firstName: "Admin",
-      lastName: "User",
+      firstName: "John",
+      lastName: "Doe",
       email: `admin${Date.now()}@example.com`,
       password: "Admin@123",
       confirmPassword: "Admin@123",
@@ -314,19 +314,17 @@ const AdminSignup = () => {
             </p>
           </div>
 
-          {/* Dev Mode Auto-Fill */}
-          {(import.meta.env.MODE === "development" ||
-            import.meta.env.VITE_SHOW_AUTO_FILL === "true") && (
+          {/* Test Auto-Fill */}
             <div className="mb-4">
               <button
                 type="button"
                 onClick={handleAutoFill}
-                className="block mx-auto w-2/5 py-2.5 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white text-xs rounded-3xl transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
+                className="block mx-auto w-2/6 py-2.5 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white text-xs rounded-3xl transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
               >
                 <span className="flex items-center justify-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 mr-2"
+                    className="h-4 w-4 mr-1"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
@@ -340,7 +338,6 @@ const AdminSignup = () => {
                 </span>
               </button>
             </div>
-          )}
 
           {/* Error Message */}
           {error && (
@@ -390,45 +387,94 @@ const AdminSignup = () => {
 
           {/* Signup Form */}
           <form onSubmit={handleSubmit} className="space-y-3 mx-3">
-            {/* Name Fields */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.1 }}
-              >
-                <label className="block text-xs text-black dark:text-gray-300 mb-1.5">
-                  First Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="firstName"
-                  placeholder="Enter first name"
-                  value={formData.firstName}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-2.5 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all duration-300"
-                />
-              </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.15 }}
-              >
-                <label className="block text-xs text-black dark:text-gray-300 mb-1.5">
-                  Last Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="lastName"
-                  placeholder="Enter last name"
-                  value={formData.lastName}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-2.5 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all duration-300"
-                />
-              </motion.div>
+            {/* Name fields*/}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <label className="block text-xs text-black dark:text-gray-300 mb-1.5">
+                    First Name <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      {/* correct person icon (head + shoulders) */}
+                      <svg
+                        className="w-4 h-4 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 20c0-2.761 2.686-5 6-5h4c3.314 0 6 2.239 6 5"
+                        />
+                      </svg>
+                    </div>
+                    <input
+                      type="text"
+                      name="firstName"
+                      placeholder="Enter first name"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full pl-10 pr-4 py-2.5 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all duration-300"
+                    />
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.15 }}
+                >
+                  <label className="block text-xs text-black dark:text-gray-300 mb-1.5">
+                    Last Name <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      {/* same person icon */}
+                      <svg
+                        className="w-4 h-4 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 20c0-2.761 2.686-5 6-5h4c3.314 0 6 2.239 6 5"
+                        />
+                      </svg>
+                    </div>
+                    <input
+                      type="text"
+                      name="lastName"
+                      placeholder="Enter last name"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full pl-10 pr-4 py-2.5 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all duration-300"
+                    />
+                  </div>
+                </motion.div>
             </div>
 
             {/* Email */}
@@ -468,8 +514,9 @@ const AdminSignup = () => {
               </div>
             </motion.div>
 
-            {/* Gender and Role */}
+            {/* Gender & Role */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {/* Gender */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -478,26 +525,49 @@ const AdminSignup = () => {
                 <label className="block text-xs text-black dark:text-gray-300 mb-1.5">
                   Gender <span className="text-red-500">*</span>
                 </label>
-                <select
-                  name="gender"
-                  value={formData.gender}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full text-sm px-4 py-2.5 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-purple-500 transition-all duration-300 appearance-none"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "right 12px center",
-                    backgroundSize: "16px",
-                    paddingRight: "40px",
-                  }}
-                >
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                </select>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    {/* 🚻 Gender icon */}
+                    <svg
+                      className="w-4 h-4 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 4h-4a2 2 0 00-2 2v4M5 20h4a2 2 0 002-2v-4m6-6L5 19"
+                      />
+                    </svg>
+                  </div>
+                  <select
+                    name="gender"
+                    value={formData.gender}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full pl-10 text-sm px-4 py-2.5 border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-purple-500 transition-all duration-300 appearance-none"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "right 12px center",
+                      backgroundSize: "16px",
+                      paddingRight: "40px",
+                    }}
+                    defaultValue=""
+                  >
+                    <option value="" disabled hidden>
+                      Select
+                    </option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
               </motion.div>
 
+              {/* Role */}
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -506,23 +576,45 @@ const AdminSignup = () => {
                 <label className="block text-xs text-black dark:text-gray-300 mb-1.5">
                   Role <span className="text-red-500">*</span>
                 </label>
-                <select
-                  name="role"
-                  value={formData.role}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-2.5 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-purple-500 transition-all duration-300 appearance-none"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "right 12px center",
-                    backgroundSize: "16px",
-                    paddingRight: "40px",
-                  }}
-                >
-                  <option value="admin">Admin</option>
-                  <option value="superadmin">Super Admin</option>
-                </select>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    {/* 🧑‍💼 Role icon */}
+                    <svg
+                      className="w-4 h-4 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 14a4 4 0 10-8 0v2a4 4 0 008 0v-2zM12 4a4 4 0 100 8 4 4 0 000-8z"
+                      />
+                    </svg>
+                  </div>
+                  <select
+                    name="role"
+                    value={formData.role}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full pl-10 px-4 py-2.5 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-purple-500 transition-all duration-300 appearance-none"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "right 12px center",
+                      backgroundSize: "16px",
+                      paddingRight: "40px",
+                    }}
+                    defaultValue=""
+                  >
+                    <option value="" disabled hidden>
+                      Select
+                    </option>
+                    <option value="admin">Admin</option>
+                    <option value="superadmin">Super Admin</option>
+                  </select>
+                </div>
               </motion.div>
             </div>
 
@@ -711,7 +803,7 @@ const AdminSignup = () => {
               disabled={
                 loading || formData.password !== formData.confirmPassword
               }
-              className="w-2/5 mx-auto text-xs py-2.5 px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-3xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center mt-4"
+              className="w-2/6 mx-auto text-xs py-2.5 px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-3xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center mt-4"
             >
               {loading ? (
                 <>
@@ -739,7 +831,7 @@ const AdminSignup = () => {
                 </>
               ) : (
                 <>
-                  Create Admin Account
+                  Create Account
                   <svg
                     className="w-4 h-4 ml-1 mt-0.5"
                     fill="none"
