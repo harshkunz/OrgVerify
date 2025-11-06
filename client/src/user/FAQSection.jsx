@@ -235,7 +235,7 @@ const FAQSection = () => {
           <div className="text-center">
             <button
               onClick={handleShowMore}
-              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-3xl shadow-md hover:shadow-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
+              className="inline-flex text-sm items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-3xl shadow-md hover:shadow-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
             >
               Show More
               <FiChevronDown className="ml-2 w-5 h-5" />
@@ -253,7 +253,7 @@ const FAQSection = () => {
           </p>
           <a
             href="mailto:support@orgverify.com"
-            className="inline-flex items-center px-6 py-3 bg-white text-purple-600 rounded-3xl shadow-md hover:shadow-lg transition-all duration-300 hover:text-black"
+            className="text-sm inline-flex items-center px-6 py-3 bg-white text-purple-600 rounded-3xl shadow-md hover:shadow-lg transition-all duration-300 hover:text-black"
           >
             <FiMail className="mr-2" />
             Contact Support Team
