@@ -152,7 +152,7 @@ const LandingPage = () => {
                 to="/admin/login"
                 className="inline-flex px-6 py-3 items-center justify-center bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-3xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl"
               >
-                Work Now
+                Works Now
                 <FiArrowRight className="ml-2 w-5 h-5" />
               </Link>
               <Link
