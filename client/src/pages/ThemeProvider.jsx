@@ -30,7 +30,6 @@ const ThemeProvider = ({ children }) => {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
-  // Listen to system changes when 'system' is selected
   useEffect(() => {
     const media = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = () => {

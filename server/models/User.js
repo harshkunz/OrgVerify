@@ -93,13 +93,15 @@ const userSchema = new mongoose.Schema({
     ref: "Employee",
     default: null,
   },
-      photo: {
+
+  photo: {
     type: String,
     default: function() {
       const id = Math.floor(Math.random() * 100);
       return `https://randomuser.me/api/portraits/${this.gender === 'male' ? 'men' : 'women'}/${id}.jpg`;
     }
   },
+  
   createdAt: {
     type: Date,
     default: Date.now,

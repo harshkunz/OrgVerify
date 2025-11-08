@@ -230,7 +230,7 @@ const AdminSignup = () => {
         );
 
         setTimeout(() => {
-          navigate("/admin-login");
+          navigate("/admin/login");
         }, 2000);
       } else {
         setError(data.error || "Registration failed");
@@ -612,7 +612,7 @@ const AdminSignup = () => {
                       Select
                     </option>
                     <option value="admin">Admin</option>
-                    <option value="superadmin">Super Admin</option>
+                    <option value="superadmin">Owner</option>
                   </select>
                 </div>
               </motion.div>

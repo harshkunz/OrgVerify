@@ -19,7 +19,7 @@ const orgIDSchema = new mongoose.Schema({
   address: {
     street: { type: String, trim: true },
     city: { type: String, trim: true },
-    state: { type: String, trim: true }, // State/Province/Region
+    state: { type: String, trim: true },
     country: { 
       type: String, 
       trim: true,
