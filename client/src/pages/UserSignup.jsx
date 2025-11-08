@@ -330,16 +330,16 @@ const UserSignup = () => {
   };
 
   const steps = [
-    { number: 1, label: "Verify ID" },
+    { number: 1, label: "ID" },
     { number: 2, label: "Confirm" },
     { number: 3, label: "Account" },
-    { number: 4, label: "Verify" },
+    { number: 4, label: "Create" },
   ];
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 via-white to-purple-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4 py-6 transition-colors duration-300">
-      <div className="w-full max-w-2xl">
-        {/* Back to Home Link */}
+return (
+    <div className="min-h-screen w-full overflow-x-hidden flex items-center justify-center bg-gradient-to-br from-blue-200 via-white to-purple-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4 py-2 transition-colors duration-300">
+     <div className="w-full max-w-2xl">
+        {/* Back Button */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -387,7 +387,7 @@ const UserSignup = () => {
               className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-full mb-3"
             >
               <svg
-                className="w-7 h-7 text-purple-600 dark:text-blue-400"
+                className="w-6 h-6 text-purple-600 dark:text-blue-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -421,7 +421,7 @@ const UserSignup = () => {
                   onClick={() => {
                     if (s.number <= maxStep) setStep(s.number);
                   }}
-                  className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 ${
+                  className={`w-9.5 h-9.5 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 ${
                     step >= s.number
                       ? "bg-gradient-to-br from-blue-600 to-purple-600 text-white shadow-lg scale-110"
                       : s.number <= maxStep
@@ -497,7 +497,7 @@ const UserSignup = () => {
             )}
           </AnimatePresence>
 
-          {/* Step Content */}
+          {/* Content */}
           <AnimatePresence mode="wait">
             {/* Step 1: Organization ID Verification */}
             {step === 1 && (
@@ -510,7 +510,7 @@ const UserSignup = () => {
                 className="space-y-4 px-3"
               >
                 <div>
-                  <label className="block text-xs text-black dark:text-gray-300 mb-1.5">
+                  <label className="block text-xs text-black dark:text-gray-300 mb-2">
                     16-Digit Organization ID Number{" "}
                     <span className="text-red-500">*</span>
                   </label>
@@ -546,9 +546,9 @@ const UserSignup = () => {
                   whileTap={{ scale: !loading ? 0.98 : 1 }}
                   onClick={handleVerifyOrgId}
                   disabled={loading}
-                  className="w-2/5 mx-auto py-2.5 px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-xs rounded-3xl disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center"
+                  className="w-2/6 mx-auto py-2.5 px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-xs rounded-3xl disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center"
                 >
-                  {loading ? "Verifying..." : "Verify Organization ID"}
+                  {loading ? "Verifying..." : "Verify ID"}
                 </motion.button>
               </motion.div>
             )}
@@ -565,52 +565,52 @@ const UserSignup = () => {
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-medium text-black dark:text-gray-300 mb-1.5">
+                    <label className="block text-xs text-black dark:text-gray-300 mb-1.5">
                       First Name
                     </label>
                     <input
                       type="text"
                       value={formData.firstName}
                       readOnly
-                      className="w-full px-4 py-2.5 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className="w-full px-4 py-2.5 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-purple-600 transition-all duration-300"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-black dark:text-gray-300 mb-1.5">
-                      Middle Name
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.middleName}
-                      readOnly
-                      className="w-full px-4 py-2.5 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-black dark:text-gray-300 mb-1.5">
+                    <label className="block text-xs text-black dark:text-gray-300 mb-1.5">
                       Last Name
                     </label>
                     <input
                       type="text"
                       value={formData.lastName}
                       readOnly
-                      className="w-full px-4 py-2.5 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className="w-full px-4 py-2.5 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-purple-600 transition-all duration-300"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-black dark:text-gray-300 mb-1.5">
+                    <label className="block text-xs text-black dark:text-gray-300 mb-1.5">
                       Gender
                     </label>
                     <input
                       type="text"
                       value={formData.gender}
                       readOnly
-                      className="w-full px-4 py-2.5 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className="w-full px-4 py-2.5 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-purple-600 transition-all duration-300"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-black dark:text-gray-300 mb-1.5">
+                      Role
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.role}
+                      readOnly
+                      className="w-full px-4 py-2.5 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-purple-600 transition-all duration-300"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-black dark:text-gray-300 mb-1.5">
+                  <label className="block text-xs text-black dark:text-gray-300 mb-1.5">
                     Phone Number <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
@@ -635,7 +635,7 @@ const UserSignup = () => {
                       placeholder="Enter your phone number"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full pl-10 pr-4 py-2.5 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-all duration-300"
+                      className="w-full pl-10 pr-4 py-2.5 text-sm border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-purple-600 transition-all duration-300"
                     />
                   </div>
                 </div>
@@ -644,14 +644,15 @@ const UserSignup = () => {
                   whileTap={{ scale: !loading ? 0.98 : 1 }}
                   onClick={handleVerifyIdentity}
                   disabled={loading}
-                  className="w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm font-semibold rounded-3xl disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center"
+                  className="w-2/6 mx-auto py-2.5 px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-xs rounded-3xl disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center"
                 >
                   {loading ? "Verifying..." : "Continue"}
                 </motion.button>
               </motion.div>
             )}
 
-            {/* Step 3: Create Account */}
+
+            {/* Step 3: Enter details */}
             {step === 3 && (
               <motion.div
                 key="step3"
@@ -662,7 +663,7 @@ const UserSignup = () => {
                 className="space-y-3 px-3"
               >
                 <div>
-                  <label className="block text-xs font-medium text-black dark:text-gray-300 mb-1.5">
+                  <label className="block text-xs text-black dark:text-gray-300 mb-1.5">
                     Email <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
@@ -692,7 +693,7 @@ const UserSignup = () => {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-black dark:text-gray-300 mb-1.5">
+                  <label className="block text-xs text-black dark:text-gray-300 mb-1.5">
                     Password <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
@@ -764,7 +765,7 @@ const UserSignup = () => {
                   <PasswordStrengthMeter password={formData.password} />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-black dark:text-gray-300 mb-1.5">
+                  <label className="block text-xs text-black dark:text-gray-300 mb-1.5">
                     Confirm Password <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
@@ -864,7 +865,7 @@ const UserSignup = () => {
                     strength < 80 ||
                     formData.password !== formData.confirmPassword
                   }
-                  className="w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm font-semibold rounded-3xl disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center"
+                  className="w-2/6 mx-auto py-2.5 px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-xs rounded-3xl disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center"
                 >
                   {loading ? "Registering..." : "Register"}
                 </motion.button>
@@ -881,7 +882,7 @@ const UserSignup = () => {
                 transition={{ duration: 0.3 }}
                 className="space-y-4 px-3"
               >
-                <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-purple-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-800 rounded-3xl">
+                <div className="text-center p-2">
                   <svg
                     className="w-10 h-10 text-purple-600 dark:text-blue-400 mx-auto mb-2"
                     fill="none"
@@ -905,7 +906,7 @@ const UserSignup = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs text-gray-700 dark:text-gray-300 mb-2">
                     Verification Code
                   </label>
                   <input
@@ -917,7 +918,7 @@ const UserSignup = () => {
                         e.target.value.replace(/\D/g, "").slice(0, 6)
                       )
                     }
-                    className="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-center text-2xl font-mono tracking-widest placeholder-gray-300 focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300"
+                    className="w-full px-4 py-2 border-2 border-gray-200 dark:border-gray-600 rounded-3xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-center text-xl font-mono tracking-widest placeholder-gray-300 focus:outline-none focus:border-purple-600 transition-all duration-300"
                     maxLength={6}
                   />
                 </div>
@@ -927,12 +928,13 @@ const UserSignup = () => {
                   whileTap={{ scale: !loading ? 0.98 : 1 }}
                   onClick={handleVerifyEmail}
                   disabled={loading}
-                  className="w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm font-semibold rounded-3xl disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center"
+                  className="w-2/6 mx-auto py-2.5 px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-xs rounded-3xl disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center"
                 >
                   {loading ? "Verifying..." : "Verify Email"}
                 </motion.button>
               </motion.div>
             )}
+
           </AnimatePresence>
 
           {/* Login Link */}

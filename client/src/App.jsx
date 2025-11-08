@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import LandingPage from "./pages/LandingPage";
-import Home from "./components/Pages/Home";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import ThemeProvider from "./pages/ThemeProvider";
@@ -20,9 +19,7 @@ import RequireGuest from "./pages/RequireGuest";
 import UserAccountSetting from "./user/UserAccountSetting";
 import CompanyLayout from "./company/CompanyLayout";
 import CompanyDashboard from "./company/CompanyDashboard";
-import AboutPage from "./pages/AboutPage";
 import AdminSignup from "./pages/AdminSignup";
-import AdminHomePage from "./components/Pages/AdminHomePages";
 import UserAddingPage from "./admin/UserAdding";
 
 axios.defaults.withCredentials = true;
@@ -41,17 +38,16 @@ const App = () => {
     <ThemeProvider>
       <Toaster />
       <Routes>
-        {/* Landing & About Pages */}
+
+        {/* Landing Page */}
         <Route 
           path="/" 
           element={
-            <LandingPage>
-              <Home />
-            </LandingPage>
+            <LandingPage />
           } 
         />
 
-        {/* Auth Routes - Pass currentUser and setCurrentUser */}
+        {/* Auth Pages */}
         <Route 
           path="/login" 
           element={
@@ -68,6 +64,7 @@ const App = () => {
             </RequireGuest>
           } 
         />
+
         <Route 
           path="/admin/login" 
           element={
@@ -98,6 +95,7 @@ const App = () => {
             </UserLayout>
           } 
         />
+
         <Route 
           path="/user/settings" 
           element={
@@ -107,48 +105,8 @@ const App = () => {
           } 
         />
 
-        {/* Company Routes */}
-        <Route 
-          path="/company/dashboard" 
-          element={
-            <CompanyLayout>
-              <CompanyDashboard />
-            </CompanyLayout>
-          } 
-        />
-        <Route 
-          path="/company/employees" 
-          element={
-            <CompanyLayout>
-              <div className="p-6">
-                <h2 className="text-2xl font-bold mb-4">Employees</h2>
-                <p>Employee management page - to be implemented</p>
-              </div>
-            </CompanyLayout>
-          } 
-        />
-        <Route 
-          path="/company/settings" 
-          element={
-            <CompanyLayout>
-              <div className="p-6">
-                <h2 className="text-2xl font-bold mb-4">Company Settings</h2>
-                <p>Company settings page - to be implemented</p>
-              </div>
-            </CompanyLayout>
-          } 
-        />
 
         {/* Admin Routes */}
-        <Route 
-          path="/admin" 
-          element={
-            <AdminLayout>
-              <AdminHomePage />
-            </AdminLayout>
-          } 
-        />
-
         <Route 
           path="/admin/dashboard" 
           element={
