@@ -28,9 +28,9 @@ const UserLogin = ({ setCurrentUser }) => {
       import.meta.env.MODE === "production"
     ) {
       setFormData({
-        email: "xyz@gmail.com",
-        orgIdNumber: "1111111111111119",
-        password: "@xyz123$$",
+        email: "test@gmail.com",
+        orgIdNumber: "1234567890123456",
+        password: "Test123@",
       });
 
       const button = document.querySelector(".auto-fill-button");

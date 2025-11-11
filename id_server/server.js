@@ -20,6 +20,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(cookieParser());
 app.use(express.json());
 
@@ -44,7 +45,7 @@ const initializeCounter = async () => {
 
 app.listen(PORT, () => {
   connectDB();
-  initializeCounter(); // Initialize the counter when the server starts
+  initializeCounter();
   console.log(`Organization ID Server running on port http://localhost:${PORT}`);
 });
 

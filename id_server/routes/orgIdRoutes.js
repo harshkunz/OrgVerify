@@ -3,14 +3,15 @@ import express from 'express';
 import multer from 'multer';
 import { 
   createOrgID, 
-  getAllOrgIDs, 
   getOrgIdByNumber, 
   getOrgIDByName, 
   searchOrgIDs, 
-  uploadOrgIDsExcel 
+  uploadOrgIDsExcel,
+  updateOrgData,
 } from '../controllers/orgIdController.js';
 
 const router = express.Router();
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -37,12 +38,15 @@ const upload = multer({
   fileFilter: fileFilter,
 });
 
+
 router.post('/create', createOrgID);
-router.get('/', getAllOrgIDs);
 router.get('/search', searchOrgIDs);
-router.get('/search/name', getOrgIDByName); // Search by name (first, middle, last)
+router.get('/search/name', getOrgIDByName);
 router.post('/upload-excel', upload.single('file'), uploadOrgIDsExcel);
-router.get('/:orgIdNumber', getOrgIdByNumber); // Must be last to avoid route conflicts
+
+
+router.get('/find/:orgIdNumber', getOrgIdByNumber);
+router.put("/update/:id", updateOrgData);
 
 export default router;
 

@@ -9,11 +9,12 @@ const userSchema = new mongoose.Schema({
     trim: true,
     validate: {
       validator: function (v) {
-        return /^\d{16}$/.test(v); // Matches exactly 16 digits
+        return /^\d{16}$/.test(v);
       },
       message: (props) => `${props.value} is not a valid 16-digit Organization ID!`,
     },
   },
+
   firstName: {
     type: String,
     required: true,
@@ -39,11 +40,12 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: function (v) {
-        return /^\d{1,15}$/.test(v); // Matches 1 to 15 digits
+        return /^\d{1,15}$/.test(v);
       },
       message: (props) => `${props.value} is not a valid phone number!`,
     },
   },
+
   email: {
     type: String,
     required: true,
@@ -52,7 +54,7 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: {
       validator: function (v) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); // Matches valid email format
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
       },
       message: (props) => `${props.value} is not a valid email!`,
     },
@@ -62,14 +64,17 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 8,
   },
+
   isVerified: {
     type: Boolean,
     default: false,
   },
+
   verificationCode: {
     type: String,
     default: null,
   },
+
   passwordResetCode: {
     type: String,
     default: null,
@@ -78,16 +83,19 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: null,
   },
+
   role: {
     type: String,
-    enum: ["super_admin", "admin", "company_admin", "employee", "user"],
-    default: "user",
+    enum: ["manager", "employee", "user", "none"],
+    default: "none",
   },
+
   company: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Company",
     default: null,
   },
+
   employeeProfile: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Employee",
@@ -108,6 +116,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+
 // Hash password before saving
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
@@ -125,7 +134,7 @@ userSchema.pre("save", async function (next) {
   }
 });
 
-// Method to compare passwords
+
 userSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
@@ -138,8 +147,6 @@ userSchema.methods.resetPassword = async function (newPassword) {
   this.passwordResetExpires = null; // Clear expiration timestamp
   await this.save(); // Save the updated user object
 };
-
-
 
 
 const User = mongoose.model("User", userSchema);
