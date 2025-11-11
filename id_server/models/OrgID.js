@@ -10,7 +10,7 @@ const orgIDSchema = new mongoose.Schema({
     enum: ['male', 'female'],
     lowercase: true
   },
-  orgIdNumber: { type: Number, unique: true, required: true, min: 1 },
+  orgIdNumber: { type: String, unique: true, required: true },
   dateOfBirth: {
     type: String,
     required: false,
@@ -34,8 +34,11 @@ const orgIDSchema = new mongoose.Schema({
       return `https://randomuser.me/api/portraits/${this.gender === 'male' ? 'men' : 'women'}/${id}.jpg`;
     }
   },
+  email: { type: String },
+  role: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
+
 
 const OrgID = mongoose.model("OrgID", orgIDSchema);
 export default OrgID;

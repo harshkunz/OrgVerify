@@ -7,11 +7,11 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const passport = require('../utils/passport.js');
 
-// POST /api/auth/register
-router.post('/register', register);
 
-// POST /api/auth/verify-email
+// Step 1
+router.post('/register', register);
 router.post('/verify-email', verifyEmail);
+
 
 // Login routes
 router.post("/login", login);

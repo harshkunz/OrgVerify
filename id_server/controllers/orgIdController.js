@@ -4,6 +4,7 @@ import { getNextSequence } from '../utils/counter.js';
 import excelToJson from 'convert-excel-to-json';
 import fs from 'fs';
 
+
 export const uploadOrgIDsExcel = async (req, res, next) => {
   try {
     if (!req.file) {
@@ -229,8 +230,6 @@ export const createOrgID = async (req, res) => {
 };
 
 
-
-
 export const searchOrgIDs = async (req, res) => {
   try {
     // Extract query parameters
@@ -260,7 +259,7 @@ export const searchOrgIDs = async (req, res) => {
   }
 };
 
-// get single Organization ID by first name, middle name, last name and gender
+
 export const getOrgIDByName = async (req, res) => {
   const { firstName, middleName, lastName, gender } = req.query;
 
@@ -288,14 +287,18 @@ export const getOrgIDByName = async (req, res) => {
   }
 }
 
+
+
+// step 2
 export const getOrgIdByNumber = async (req, res) => {
-  const orgIdNumber = req.params.orgIdNumber; // Read from route parameters
+  const orgIdNumber = req.params.orgIdNumber;
   if(!orgIdNumber){
     return res.status(400).json({
       success: false,
       message: 'Please provide an Organization ID number'
     });
   }
+
   if(orgIdNumber.length !== 16){
     return res.status(400).json({
       success: false,
@@ -303,7 +306,7 @@ export const getOrgIdByNumber = async (req, res) => {
     });
   }
   try {
-    const orgID = await OrgID.findOne({orgIdNumber});
+    const orgID = await OrgID.findOne({ orgIdNumber: orgIdNumber });
     if (!orgID) {
       return res.status(404).json({
         success: false,
@@ -320,26 +323,28 @@ export const getOrgIdByNumber = async (req, res) => {
   }
 }
 
-// get all Organization IDs in the database
-export const getAllOrgIDs = async (req, res) => {
+export const updateOrgData = async (req, res) => {
+  const { id } = req.params;
+  const updates = req.body;
+
+  if (!id)
+    return res.status(400).json({ success: false, message: "Organization ID missing" });
+
   try {
-    const allOrgIDs = await OrgID.find();
-    if (!allOrgIDs || allOrgIDs.length === 0) {
-      return res.status(404).json({
-        success: false,
-        error: "No Organization IDs found"
-      });
-    }
-    res.status(200).json({
-      success: true,
-      count: allOrgIDs.length,
-      data: allOrgIDs
-    })
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
+    const org = await OrgID.findById(id);
+    if (!org)
+      return res.status(404).json({ success: false, message: "Organization record not found" });
+
+    const allowed = ["firstName", "middleName", "lastName", "gender", "role", "phone_no"];
+    allowed.forEach(key => {
+      if (updates[key] !== undefined) org[key] = updates[key];
     });
+
+    await org.save();
+    res.status(200).json({ success: true, message: "Organization details updated", org });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
   }
-}
+};
+
 

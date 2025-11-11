@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FiSun, FiMoon, FiMenu, FiX, FiArrowRight } from "react-icons/fi";
 import Navbar from "../components/Navbar";
+import { motion } from "framer-motion";
 import {
   FaFacebook,
   FaTwitter,
@@ -166,75 +167,105 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section className="py-12 px-8 bg-white dark:bg-gray-900">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl text-gray-900 dark:text-white mb-4">
-              How It Works
-            </h2>
-            <p className="text-md text-gray-500 dark:text-gray-400">
-              Simple steps to verify organizational credentials
+      {/* Cards Section */}
+      <section className="py-12 px-12 bg-white dark:bg-gray-900">
+        <div className="text-center">
+          <h2 className="text-3xl md:text-4xl text-gray-900 dark:text-white mb-4">
+            Integrated Features
+          </h2>
+          <p className="text-md text-gray-500 dark:text-gray-400">
+            Boosting process reliability with minimal errors.
+          </p>
+        </div>
+
+        <div className="relative flex flex-col md:flex-row justify-center items-center md:gap-0 gap-6 mt-12 mb-4">
+          {/* Card 1 */}
+          <motion.div
+            whileHover={{ y: -10, rotate: 0, scale: 1.05 }}
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="relative z-10 md:-mr-2 rotate-[-8deg] w-72 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-blue-200 dark:border-blue-800"
+          >
+            <div className="w-14 h-14 bg-blue-100 dark:bg-blue-900/40 rounded-2xl flex items-center justify-center mx-auto mb-5">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/2076/2076169.png"
+                alt="User Chat"
+                className="w-8 h-8"
+              />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 text-center">
+              Client Chat
+            </h3>
+            <p className="text-gray-600 text-xs dark:text-gray-400 text-center mb-2">
+              Secure messaging for direct and verified communication.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid md:grid-cols-4 gap-12">
-            <div className="text-center border-2 border-blue-200 px-5 py-10 rounded-3xl bg-white">
-              <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                  1
-                </span>
-              </div>
-              <h3 className="text-xl text-black dark:text-white mb-2">
-                Register
-              </h3>
-              <p className="text-gray-700 text-sm dark:text-gray-400">
-                Create an account or login to access the verification system.
-              </p>
+          {/* Card 2 */}
+          <motion.div
+            whileHover={{ y: -10, rotate: 0, scale: 1.05 }}
+            animate={{ y: [-5, 0, -5] }}
+            transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+            className="relative z-20 md:-mr-2 rotate-[6deg] w-72 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-green-200 dark:border-green-800"
+          >
+            <div className="w-14 h-14 bg-green-100 dark:bg-green-900/40 rounded-2xl flex items-center justify-center mx-auto mb-5">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/942/942748.png"
+                alt="Data Protection"
+                className="w-8 h-8"
+              />
             </div>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 text-center">
+              Data Protected
+            </h3>
+            <p className="text-gray-600 text-xs dark:text-gray-400 text-center mb-2">
+              Advanced encryption ensures total data safety.
+            </p>
+          </motion.div>
 
-            <div className="text-center border-2 border-purple-200 px-5 py-10 rounded-3xl bg-white">
-              <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                  2
-                </span>
-              </div>
-              <h3 className="text-xl text-black dark:text-white mb-2">
-                Submit
-              </h3>
-              <p className="text-gray-700 text-sm dark:text-gray-400">
-                Register your company and manage employees with ease.
-              </p>
+          {/* Card 3 */}
+          <motion.div
+            whileHover={{ y: -10, rotate: 0, scale: 1.05 }}
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+            className="relative z-30 md:-mr-2 rotate-[-5deg] w-72 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-purple-200 dark:border-purple-800"
+          >
+            <div className="w-14 h-14 bg-purple-100 dark:bg-purple-900/40 rounded-2xl flex items-center justify-center mx-auto mb-5">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/4471/4471189.png"
+                alt="Unique ID"
+                className="w-8 h-8"
+              />
             </div>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 text-center">
+              Unique Org ID
+            </h3>
+            <p className="text-gray-600 text-xs dark:text-gray-400 text-center mb-2">
+              Every verified org gets a globally unique digital ID.
+            </p>
+          </motion.div>
 
-            <div className="text-center border-2 border-green-200 px-5 py-10 rounded-3xl bg-white">
-              <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-green-600 dark:text-green-400">
-                  3
-                </span>
-              </div>
-              <h3 className="text-xl text-black dark:text-white mb-2">
-                Verification
-              </h3>
-              <p className="text-gray-700 text-sm dark:text-gray-400">
-                Our system provides secure verification and management.
-              </p>
+          {/* Card 4 */}
+          <motion.div
+            whileHover={{ y: -10, rotate: 0, scale: 1.05 }}
+            animate={{ y: [-8, 0, -8] }}
+            transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+            className="relative z-40 md:rotate-[8deg] w-72 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-orange-200 dark:border-orange-800"
+          >
+            <div className="w-14 h-14 bg-orange-100 dark:bg-orange-900/40 rounded-2xl flex items-center justify-center mx-auto mb-5">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/4208/4208450.png"
+                alt="UI"
+                className="w-8 h-8"
+              />
             </div>
-
-            <div className="text-center border-2 border-orange-200 px-5 py-10 rounded-3xl bg-white">
-              <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-orange-600 dark:text-orange-400">
-                  4
-                </span>
-              </div>
-              <h3 className="text-xl text-black dark:text-white mb-2">
-                Get Results
-              </h3>
-              <p className="text-gray-700 text-sm dark:text-gray-400">
-                Receive a digitally signed report within seconds.
-              </p>
-            </div>
-          </div>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 text-center">
+              Easy to Use
+            </h3>
+            <p className="text-gray-600 text-xs dark:text-gray-400 text-center mb-2">
+              Beautiful, minimal interface built for all users.
+            </p>
+          </motion.div>
         </div>
       </section>
 

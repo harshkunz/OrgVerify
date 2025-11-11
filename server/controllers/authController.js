@@ -7,6 +7,8 @@ const axios = require("axios");
 const dotenv = require("dotenv");
 dotenv.config();
 
+
+// User Signup
 exports.register = async (req, res) => {
   try {
     const {
@@ -21,7 +23,8 @@ exports.register = async (req, res) => {
       role,
     } = req.body;
 
-    // Check if user already exists
+    console.log()
+
     const existingUser = await User.findOne({
       $or: [{ orgIdNumber }, { email }],
     });
@@ -36,7 +39,6 @@ exports.register = async (req, res) => {
       });
     }
 
-    // Password strength validation
     const passwordStrength = validatePasswordStrength(password);
     if (!passwordStrength.isValid) {
       return res.status(400).json({
@@ -45,17 +47,8 @@ exports.register = async (req, res) => {
       });
     }
 
-    // Generate verification code
-    const verificationCode = Math.floor(
-      100000 + Math.random() * 900000
-    ).toString();
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Validate role (only admin/super_admin can create other admins)
-    if (role && role !== "user" && req.user?.role !== "admin" && req.user?.role !== "super_admin") {
-      return res.status(403).json({ error: "Not authorized to create this role" });
-    }
-
-    // Create new user
     const newUser = new User({
       orgIdNumber,
       firstName,
@@ -66,13 +59,13 @@ exports.register = async (req, res) => {
       email,
       password,
       verificationCode,
-      role: role || "user", // Default to 'user' if no role is provided
+      role: role || "none",
     });
 
+    /*
+    await sendVerificationEmail(email, verificationCode); 
+    */
     await newUser.save();
-
-    // Send verification email
-    await sendVerificationEmail(email, verificationCode);
 
     res.status(201).json({
       success: true,
@@ -87,7 +80,6 @@ exports.register = async (req, res) => {
   }
 };
 
-// Helper function to validate password strength
 const validatePasswordStrength = (password) => {
   const minLength = 8;
   const hasUppercase = /[A-Z]/.test(password);
@@ -117,7 +109,6 @@ const validatePasswordStrength = (password) => {
 exports.verifyEmail = async (req, res) => {
   try {
     const { email, code } = req.body;
-
     const user = await User.findOne({ email, verificationCode: code });
 
     if (!user) {
@@ -128,12 +119,11 @@ exports.verifyEmail = async (req, res) => {
     }
 
     user.isVerified = true;
-    user.verificationCode = undefined;
+    user.verificationCode = null;
     await user.save();
 
-    // Generate JWT token
-    const token = generateToken(user._id);
 
+    const token = generateToken(user._id);
     res.json({
       success: true,
       token,
@@ -155,14 +145,8 @@ exports.verifyEmail = async (req, res) => {
   }
 };
 
-const validateCaptcha = async (token) => {
-  const secretKey = "6Lfi11ArAAAAAAghMx_O7AE82IEEMY6Ij7d9mVVd";
-  const response = await axios.post(
-    `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`
-  );
-  return response.data.success;
-};
-// Login with email or Organization ID
+
+// User Login
 exports.login = async (req, res) => {
   try {
     const { email, orgIdNumber, password, captchaToken  } = req.body;
@@ -174,7 +158,8 @@ exports.login = async (req, res) => {
         error: "Email/Organization ID is required",
       });
     }
-        if(!captchaToken){
+
+    if(!captchaToken){
       return res.status(400).json({
         success: false,
         error: "please, idenitify your self you're not robot   it's required",
@@ -187,13 +172,8 @@ exports.login = async (req, res) => {
         error: "Password is required",
       });
     }
-    if (password.length < 8) {
-      return res.status(400).json({
-        success: false,
-        error: "Password must be at least 8 characters long",
-      });
-    }
-     const isHuman = await validateCaptcha(captchaToken);
+
+    const isHuman = await validateCaptcha(captchaToken);
     if (!isHuman) {
       return res.status(403).json({ message: "CAPTCHA validation failed" });
     }
@@ -210,7 +190,6 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Check password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({
@@ -219,14 +198,12 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Check if email is verified
     if (!user.isVerified) {
-      // Send verification email if not verified
       const code = Math.floor(100000 + Math.random() * 900000).toString();
       user.verificationCode = code;
-      user.emailVerificationExpires = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
-      await user.save();
+      user.emailVerificationExpires = Date.now() + 24 * 60 * 60 * 1000;
 
+      await user.save();
       await sendVerificationEmail(user.email, code);
 
       return res.json({
@@ -235,8 +212,8 @@ exports.login = async (req, res) => {
         message: "Email verification required. Code sent to your email.",
       });
     }
+    
 
-    // Generate JWT token
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
@@ -263,7 +240,16 @@ exports.login = async (req, res) => {
   }
 };
 
-// Google OAuth login
+const validateCaptcha = async (token) => {
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  const response = await axios.post(
+    `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`
+  );
+  return response.data.success;
+}
+
+
+// Google OAuth Login
 exports.googleOAuthCallback = async (req, res) => {
   try {
     // Passport attaches user object to req.user after successful authentication
@@ -298,7 +284,6 @@ exports.googleOAuthCallback = async (req, res) => {
     res.status(500).json({ success: false, error: "Google login failed" });
   }
 };
-
 
 // Forgot password - send reset code.
 exports.forgotPassword = async (req, res) => {
@@ -466,7 +451,8 @@ exports.resetPassword = async (req, res) => {
   }
 };
 
-// Get current authenticated user
+
+// Get Current User
 exports.getMe = async (req, res) => {
   try {
     // req.user is set by authMiddleware

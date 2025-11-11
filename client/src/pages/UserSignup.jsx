@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
+
 const PasswordStrengthMeter = ({ password }) => {
   const [strength, setStrength] = useState(0);
   const [requirements, setRequirements] = useState({
@@ -116,6 +117,7 @@ const PasswordStrengthMeter = ({ password }) => {
   );
 };
 
+
 const UserSignup = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
@@ -127,6 +129,7 @@ const UserSignup = () => {
   const [strength, setStrength] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [orgData, setOrgData] = useState(null);
 
   const [formData, setFormData] = useState({
     orgIdNumber: "",
@@ -137,8 +140,10 @@ const UserSignup = () => {
     phone: "",
     email: "",
     password: "",
+    role: "",
     confirmPassword: "",
   });
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -148,6 +153,7 @@ const UserSignup = () => {
     }));
     setError("");
   };
+
 
   const handlePasswordStrength = (password) => {
     let score = 0;
@@ -168,12 +174,15 @@ const UserSignup = () => {
     setStrength(score);
   };
 
+
   useEffect(() => {
     handlePasswordStrength(formData.password);
   }, [formData.password]);
 
-  const orgIdUrl = import.meta.env.VITE_ORG_ID_ROUTE || "http://localhost:6000";
+
+  const orgIdUrl = import.meta.env.VITE_ORG_ID_ROUTE || "http://localhost:7000";
   const authurl = import.meta.env.VITE_AUTH_ROUTE;
+
 
   useEffect(() => {
     if (formData.orgIdNumber.length > 0 && formData.orgIdNumber.length !== 16) {
@@ -183,10 +192,12 @@ const UserSignup = () => {
     }
   }, [formData.orgIdNumber]);
 
+
   const goToStep = (nextStep) => {
     setStep(nextStep);
     if (nextStep > maxStep) setMaxStep(nextStep);
   };
+
 
   const handleVerifyOrgId = async () => {
     if (formData.orgIdNumber.length !== 16) {
@@ -198,34 +209,34 @@ const UserSignup = () => {
     setError("");
     setSuccessMessage("");
     try {
-      const { data } = await axios.get(
-        `${orgIdUrl}/api/org-ids/${formData.orgIdNumber}`
-      );
+      const { data } = await axios.get(`${orgIdUrl}/id/find/${formData.orgIdNumber}`);
       if (data.success && data.orgID) {
+        setOrgData(data.orgID);
+        
         setFormData((prev) => ({
           ...prev,
           firstName: data.orgID.firstName,
           middleName: data.orgID.middleName,
           lastName: data.orgID.lastName,
           gender: data.orgID.gender,
+          role: data.orgID.role,
         }));
         setSuccessMessage("Organization ID verified successfully!");
+
         goToStep(2);
       } else {
         setError(data.error || "Organization ID not found");
       }
     } catch (err) {
-      setError(
-        err.response?.data?.error ||
-          err.response?.data?.message ||
-          "Failed to verify Organization ID"
-      );
+      const msg = err.response?.data?.error || err.response?.data?.message || "Failed to verify Organization ID";
+      setError(msg);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleVerifyIdentity = async () => {
+
+ const handleVerifyIdentity = async () => {
     if (!formData.phone) {
       setError("Phone number is required");
       return;
@@ -234,31 +245,44 @@ const UserSignup = () => {
     setLoading(true);
     setError("");
     setSuccessMessage("");
+
     try {
-      const { data } = await axios.get(
-        `${orgIdUrl}/api/org-ids/${formData.orgIdNumber}`
-      );
-      if (data.success && data.orgID) {
-        if (data.orgID.phone_no && data.orgID.phone_no !== formData.phone) {
-          setError("Phone number does not match Organization ID record");
-          setLoading(false);
-          return;
+      /*
+      if (orgData?.phone_no && orgData.phone_no !== formData.phone) {
+        setError("Phone number does not match Organization ID record");
+        return;
+      }
+      */
+
+      const { data } = await axios.put(
+        `${orgIdUrl}/id/update/${orgData._id}`,
+        {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          gender: formData.gender,
+          role: formData.role,
+          phone_no: formData.phone,
         }
-        setSuccessMessage("Identity verified successfully!");
+      );
+
+      if (data.success) {
+        setOrgData(data.org);
+        setSuccessMessage("Identity verified");
         goToStep(3);
       } else {
-        setError(data.error || "Identity verification failed");
+        setError(data.error || "Failed to verify identity");
       }
     } catch (err) {
       setError(
         err.response?.data?.error ||
-          err.response?.data?.message ||
-          "Verification error"
+        err.response?.data?.message ||
+        "Verification error"
       );
     } finally {
       setLoading(false);
     }
   };
+
 
   const handleRegister = async () => {
     if (formData.password !== formData.confirmPassword) {
@@ -282,8 +306,9 @@ const UserSignup = () => {
         lastName: formData.lastName,
         gender: formData.gender,
         phone: formData.phone,
-        email: formData.email,
+        email: formData.email.trim().toLowerCase(),
         password: formData.password,
+        role: orgData?.role || "none",
       });
       if (data.success) {
         setSuccessMessage(
@@ -300,6 +325,7 @@ const UserSignup = () => {
     }
   };
 
+
   const handleVerifyEmail = async () => {
     if (!verificationCode || verificationCode.length !== 6) {
       setError("Please enter a valid 6-digit code");
@@ -314,9 +340,9 @@ const UserSignup = () => {
         email: formData.email,
         code: verificationCode,
       });
-      localStorage.setItem("token", data.token);
 
       if (data.success) {
+        localStorage.setItem("token", data.token);
         setSuccessMessage("Email verified successfully!");
         navigate("/user/profile");
       } else {
@@ -328,6 +354,7 @@ const UserSignup = () => {
       setLoading(false);
     }
   };
+
 
   const steps = [
     { number: 1, label: "ID" },
