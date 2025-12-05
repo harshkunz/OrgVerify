@@ -3,7 +3,7 @@ import AddUser from './AddUser';
 import UserList from './UserList';
 
 const UserManage = () => {
-  const [active, setActive] = useState('create');
+  const [active, setActive] = useState('list');
 
   return (
     <div className="pb-4 pt-5">
