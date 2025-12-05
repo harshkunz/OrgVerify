@@ -23,7 +23,7 @@ const UserProfilePage = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        setCurrentUser(res.data);
+        setCurrentUser(res.data?.user || null);
       } catch (err) {
         console.error("Error fetching current user:", err);
         const timer = setTimeout(() => {
@@ -137,7 +137,7 @@ const UserProfilePage = () => {
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-gray-500 dark:text-gray-300">
-                    {currentUser?.firstName?.charAt(0)}
+                    {currentUser?.name?.charAt(0) || currentUser?.firstName?.charAt(0)}
                   </div>
                 )}
               </div>

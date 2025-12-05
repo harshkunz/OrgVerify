@@ -26,21 +26,18 @@ const LandingPage = () => {
     {
       id: 1,
       company: "Ethio Telecom",
-      logo: "/ethio-telecom-logo.png",
       quote:
         "Organization verification system saved us 60% time in employee credential checks.",
     },
     {
       id: 2,
       company: "Commercial Bank of Ethiopia",
-      logo: "/cbe-logo.png",
       quote:
         "Highly reliable for document authentication. A game-changer for HR processes.",
     },
     {
       id: 3,
       company: "Rapid Bank",
-      logo: "/awash-bank-logo.png",
       quote:
         "Integrating this system streamlined our employee recruitment verification.",
     },
@@ -180,92 +177,84 @@ const LandingPage = () => {
 
         <div className="relative flex flex-col md:flex-row justify-center items-center md:gap-0 gap-6 mt-12 mb-4">
           {/* Card 1 */}
-          <motion.div
-            whileHover={{ y: -10, rotate: 0, scale: 1.05 }}
-            animate={{ y: [0, -8, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            className="relative z-10 md:-mr-2 rotate-[-8deg] w-72 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-blue-200 dark:border-blue-800"
+          <div
+            className="relative z-10 md:-mr-2 w-85 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-blue-200 dark:border-blue-800 
+                      hover:scale-105 transform transition-transform duration-300 ease-in-out cursor-pointer"
           >
-            <div className="w-14 h-14 bg-blue-100 dark:bg-blue-900/40 rounded-2xl flex items-center justify-center mx-auto mb-5">
+            <div className="w-14 h-14 dark:bg-blue-900/40 rounded-2xl flex items-center justify-center mx-auto mb-5">
               <img
-                src="https://cdn-icons-png.flaticon.com/512/2076/2076169.png"
+                src="https://cdn-icons-png.flaticon.com/512/566/566769.png"
                 alt="User Chat"
-                className="w-8 h-8"
+                className="w-10 h-10"
               />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 text-center">
+            <h3 className="text-xl text-gray-900 dark:text-white mb-3 text-center">
               Client Chat
             </h3>
             <p className="text-gray-600 text-xs dark:text-gray-400 text-center mb-2">
-              Secure messaging for direct and verified communication.
+              Direct and secure verified messaging.
             </p>
-          </motion.div>
+          </div>
 
           {/* Card 2 */}
-          <motion.div
-            whileHover={{ y: -10, rotate: 0, scale: 1.05 }}
-            animate={{ y: [-5, 0, -5] }}
-            transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
-            className="relative z-20 md:-mr-2 rotate-[6deg] w-72 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-green-200 dark:border-green-800"
+          <div
+            className="relative z-20 md:-mr-2 w-85 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-green-200 dark:border-green-800 
+                      hover:scale-105 transform transition-transform duration-300 ease-in-out cursor-pointer"
           >
-            <div className="w-14 h-14 bg-green-100 dark:bg-green-900/40 rounded-2xl flex items-center justify-center mx-auto mb-5">
+            <div className="w-14 h-14 dark:bg-green-900/40 rounded-2xl flex items-center justify-center mx-auto mb-5">
               <img
-                src="https://cdn-icons-png.flaticon.com/512/942/942748.png"
+                src="https://cdn-icons-png.flaticon.com/512/2592/2592317.png"
                 alt="Data Protection"
-                className="w-8 h-8"
+                className="w-10 h-10"
               />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 text-center">
+            <h3 className="text-xl text-gray-900 dark:text-white mb-3 text-center">
               Data Protected
             </h3>
             <p className="text-gray-600 text-xs dark:text-gray-400 text-center mb-2">
               Advanced encryption ensures total data safety.
             </p>
-          </motion.div>
+          </div>
 
           {/* Card 3 */}
-          <motion.div
-            whileHover={{ y: -10, rotate: 0, scale: 1.05 }}
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-            className="relative z-30 md:-mr-2 rotate-[-5deg] w-72 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-purple-200 dark:border-purple-800"
+          <div
+            className="relative z-30 md:-mr-2 w-85 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-purple-200 dark:border-purple-800 
+                      hover:scale-105 transform transition-transform duration-300 ease-in-out cursor-pointer"
           >
-            <div className="w-14 h-14 bg-purple-100 dark:bg-purple-900/40 rounded-2xl flex items-center justify-center mx-auto mb-5">
+            <div className="w-14 h-14 dark:bg-purple-900/40 rounded-2xl flex items-center justify-center mx-auto mb-5">
               <img
-                src="https://cdn-icons-png.flaticon.com/512/4471/4471189.png"
+                src="https://cdn-icons-png.flaticon.com/512/2313/2313448.png"
                 alt="Unique ID"
-                className="w-8 h-8"
+                className="w-10 h-10"
               />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 text-center">
+            <h3 className="text-xl text-gray-900 dark:text-white mb-3 text-center">
               Unique Org ID
             </h3>
             <p className="text-gray-600 text-xs dark:text-gray-400 text-center mb-2">
               Every verified org gets a globally unique digital ID.
             </p>
-          </motion.div>
+          </div>
 
           {/* Card 4 */}
-          <motion.div
-            whileHover={{ y: -10, rotate: 0, scale: 1.05 }}
-            animate={{ y: [-8, 0, -8] }}
-            transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-            className="relative z-40 md:rotate-[8deg] w-72 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-orange-200 dark:border-orange-800"
+          <div
+            className="relative z-40 w-85 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-orange-200 dark:border-orange-800 
+                      hover:scale-105 transform transition-transform duration-300 ease-in-out cursor-pointer"
           >
-            <div className="w-14 h-14 bg-orange-100 dark:bg-orange-900/40 rounded-2xl flex items-center justify-center mx-auto mb-5">
+            <div className="w-14 h-14 dark:bg-orange-900/40 rounded-2xl flex items-center justify-center mx-auto mb-5">
               <img
-                src="https://cdn-icons-png.flaticon.com/512/4208/4208450.png"
+                src="https://cdn-icons-png.flaticon.com/512/8038/8038621.png"
                 alt="UI"
-                className="w-8 h-8"
+                className="w-12 h-12"
               />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 text-center">
+            <h3 className="text-xl text-gray-900 dark:text-white mb-3 text-center">
               Easy to Use
             </h3>
             <p className="text-gray-600 text-xs dark:text-gray-400 text-center mb-2">
               Beautiful, minimal interface built for all users.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 

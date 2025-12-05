@@ -6,7 +6,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 
-// Configure axios
 axios.defaults.withCredentials = true;
 
 const MAX_ATTEMPTS = 5;
@@ -47,7 +46,7 @@ const AdminLogin = () => {
 
       await Swal.fire({
         title: "Success",
-        text: "🎉 Admin Login Successful!",
+        text: "Admin Login Successful!",
         icon: "success",
         showConfirmButton: false,
         timer: 1500,
