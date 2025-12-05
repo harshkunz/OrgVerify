@@ -43,7 +43,7 @@ const AdminSettings = () => {
         setAdmin(dummyAdmin);
         setFormData(dummyAdmin);
         setPhotoPreview(dummyAdmin.photo);
-        Swal.fire("Warning", "Failed to load profile. Using dummy data.", "warning");
+        //Swal.fire("Warning", "Failed to load profile. Using dummy data.", "warning");     //Swal Fire
       }
     };
     fetchProfile();
@@ -98,7 +98,16 @@ const AdminSettings = () => {
     }
   };
 
-  if (!admin) return <p className="text-center mt-10">Loading...</p>;
+  if (!admin) {
+    return (
+      <div className="flex justify-center items-center h-180 bg-gray-50">
+        <div className="flex flex-col items-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500 mb-4"></div>
+          <p className="text-gray-600">Loading Settings...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex justify-center items-center py-18">
