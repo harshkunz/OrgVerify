@@ -22,6 +22,19 @@ const User = require("./models/User");
 const app = express();
 const path = require("path");
 const server = http.createServer(app); // Create HTTP server for Socket.IO
+
+// Define allowed origins
+const allowedOrigins = [
+  "http://localhost:7000",
+  "http://localhost:5173",
+  "http://localhost:3000",
+];
+
+// Add production Vercel URL if it exists
+if (process.env.CLIENT_URL) {
+  allowedOrigins.push(process.env.CLIENT_URL);
+}
+
 app.use(
   session({
     secret: "some_secret_key",
@@ -36,10 +49,7 @@ app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 // Middleware
 app.use(
   cors({
-    origin: [
-      "http://localhost:7000",
-      "http://localhost:5173",
-    ],
+    origin: allowedOrigins,
     credentials: true,
   })
 );
@@ -63,13 +73,7 @@ app.use("/uploads", express.static(path.join(__dirname, "public", "uploads")));
 // Socket.IO setup
 const io = new Server(server, {
   cors: {
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://172.20.144.1:3000",
-      "https://bonga-university-graduate-document.onrender.com/",
-    ],
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true,
   },
