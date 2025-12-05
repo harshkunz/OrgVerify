@@ -3,6 +3,9 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const passport = require("./utils/passport"); 
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
@@ -39,13 +42,23 @@ if (process.env.ORG_ID_SERVER_URL) {
   allowedOrigins.push(process.env.ORG_ID_SERVER_URL);
 }
 
-app.use(
-  session({
-    secret: "some_secret_key",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+// Session store configuration - use MemoryStore only for development
+const sessionConfig = {
+  secret: process.env.SESSION_SECRET || "some_secret_key",
+  resave: false,
+  saveUninitialized: false,
+};
+
+// For production, consider using MongoDB session store or other persistent store
+if (process.env.NODE_ENV === "production") {
+  const MongoDBStore = require("connect-mongo");
+  sessionConfig.store = new MongoDBStore({
+    mongoUrl: process.env.MONGODB_URI,
+    touchAfter: 24 * 3600, // Lazy session update (in seconds)
+  });
+}
+
+app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -226,8 +239,13 @@ app.use((err, req, res, next) => {
 
 // Start server
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
+server.listen(PORT, async () => {
   // Changed from app.listen to server.listen
-  connectDB();
-  console.log(`Server running on port http://localhost:${PORT}`);
+  try {
+    await connectDB();
+    console.log(`Server running on port http://localhost:${PORT}`);
+  } catch (error) {
+    console.error("Failed to start server:", error.message);
+    process.exit(1);
+  }
 });

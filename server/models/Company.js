@@ -128,8 +128,7 @@ const companySchema = new mongoose.Schema(
 );
 
 // Indexes for better query performance
-companySchema.index({ registrationNumber: 1 });
-companySchema.index({ email: 1 });
+// Note: registrationNumber and email have unique: true, so skip duplicate indexes
 companySchema.index({ admin: 1 });
 companySchema.index({ status: 1 });
 companySchema.index({ isVerified: 1 });

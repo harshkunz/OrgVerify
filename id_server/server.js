@@ -49,10 +49,15 @@ const initializeCounter = async () => {
 
 
 
-app.listen(PORT, () => {
-  connectDB();
-  initializeCounter();
-  console.log(`Organization ID Server running on port ${PORT} (${NODE_ENV})`);
+app.listen(PORT, async () => {
+  try {
+    await connectDB();
+    await initializeCounter();
+    console.log(`Organization ID Server running on port ${PORT} (${NODE_ENV})`);
+  } catch (error) {
+    console.error("Failed to start server:", error.message);
+    process.exit(1);
+  }
 });
 
 
