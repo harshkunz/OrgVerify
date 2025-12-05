@@ -140,9 +140,9 @@ const employeeSchema = new mongoose.Schema(
 );
 
 // Indexes
+// Note: user and employeeId have unique: true, so skip duplicate indexes
 employeeSchema.index({ company: 1, employeeId: 1 });
 employeeSchema.index({ company: 1, status: 1 });
-employeeSchema.index({ user: 1 });
 employeeSchema.index({ manager: 1 });
 
 // Virtual for employment duration

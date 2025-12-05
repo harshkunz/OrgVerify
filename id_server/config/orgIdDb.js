@@ -9,7 +9,11 @@ const connectDB = async () => {
     if (!connectionString) {
       throw new Error("MONGODB_ORG_ID_URI or MONGODB_NATIONAL_ID_URI is not defined in .env");
     }
-    await mongoose.connect(connectionString);
+    await mongoose.connect(connectionString, {
+      serverSelectionTimeoutMS: 15000,
+      socketTimeoutMS: 45000,
+      family: 4, // Use IPv4
+    });
     console.log("Organization ID MongoDB connected successfully ");
   } catch (error) {
     console.error("Error in connecting to MongoDB Organization ID:", error);
