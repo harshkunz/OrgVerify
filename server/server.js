@@ -35,6 +35,10 @@ if (process.env.CLIENT_URL) {
   allowedOrigins.push(process.env.CLIENT_URL);
 }
 
+if (process.env.ORG_ID_SERVER_URL) {
+  allowedOrigins.push(process.env.ORG_ID_SERVER_URL);
+}
+
 app.use(
   session({
     secret: "some_secret_key",
