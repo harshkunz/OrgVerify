@@ -255,10 +255,10 @@ const AdminDashBoard = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-gray-50">
+      <div className="flex justify-center items-center h-180 bg-gray-50">
         <div className="flex flex-col items-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500 mb-4"></div>
-          <p className="text-gray-600">Loading dashboard...</p>
+          <p className="text-gray-600">Loading Panel...</p>
         </div>
       </div>
     );
@@ -469,7 +469,7 @@ const AdminDashBoard = () => {
         >
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-sm font-semibold text-gray-700">Recent Companies</h3>
-            <Link to="/admin/companies" className="text-xs flex items-center text-indigo-400 hover:text-blue-700">
+            <Link className="text-xs flex items-center text-indigo-400 hover:text-blue-700">
               View all <FiExternalLink className="ml-1 w-3 h-3" />
             </Link>
           </div>

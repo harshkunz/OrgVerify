@@ -229,6 +229,17 @@ export default function UserManagementPage() {
     { label: "Phone", name: "phone", type: "tel" },
   ];
 
+  if (loading.table) {
+    return (
+      <div className="flex justify-center items-center h-140 bg-gray-50">
+        <div className="flex flex-col items-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500 mb-4"></div>
+          <p className="text-gray-600">Loading Data...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex items-center justify-center pt-2">
       <div className="w-full max-w-7xl bg-white dark:bg-slate-800 rounded-2xl shadow-md px-6 py-6">
@@ -284,166 +295,159 @@ export default function UserManagementPage() {
           </div>
         )}
 
-        {loading.table ? (
-          <div className="flex flex-col items-center justify-center h-96">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
-            <p className="mt-4 text-slate-600 dark:text-slate-400">Loading user data...</p>
-          </div>
-        ) : (
-          <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm overflow-hidden border border-slate-100 dark:border-slate-700">
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-slate-100 dark:divide-slate-700">
-                <thead className="bg-slate-10 dark:bg-slate-700">
-                  <tr>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
-                      User
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
-                      Contact
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
-                      Role
-                    </th>
-                    <th className="px-6 py-4 text-right text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white dark:bg-slate-800 divide-y divide-slate-200 dark:divide-slate-700">
-                  {filteredUsers.map((user) => (
-                    <tr
-                      key={user._id}
-                      className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors duration-150"
-                    >
-                      <td className="px-6 py-5 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <div className="flex-shrink-0 h-12 w-12 relative">
-                            <img
-                              className="h-12 w-12 rounded-full object-cover border-2 border-white dark:border-slate-700 shadow-sm"
-                              src={user.photo}
-                              alt={`${user.firstName} ${user.lastName}`}
-                              onError={(e) => {
-                                if (
-                                  !user.photo ||
-                                  user.photo.includes("randomuser.me")
-                                ) {
-                                  e.target.src = `https://ui-avatars.com/api/?name=${user.firstName}+${user.lastName}&background=random`;
-                                }
-                              }}
-                            />
-                            {user.isVerified && (
-                              <div className="absolute -bottom-1 -right-1 bg-green-500 rounded-full p-1 shadow-sm">
-                                <svg
-                                  className="h-3 w-3 text-white"
-                                  fill="currentColor"
-                                  viewBox="0 0 20 20"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                    clipRule="evenodd"
-                                  />
-                                </svg>
-                              </div>
-                            )}
+        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm overflow-hidden border border-slate-100 dark:border-slate-700">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-slate-100 dark:divide-slate-700">
+              <thead className="bg-slate-10 dark:bg-slate-700">
+                <tr>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    User
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    Contact
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    Role
+                  </th>
+                  <th className="px-6 py-4 text-right text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white dark:bg-slate-800 divide-y divide-slate-200 dark:divide-slate-700">
+                {filteredUsers.map((user) => (
+                  <tr
+                    key={user._id}
+                    className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors duration-150"
+                  >
+                    <td className="px-6 py-5 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0 h-12 w-12 relative">
+                          <img
+                            className="h-12 w-12 rounded-full object-cover border-2 border-white dark:border-slate-700 shadow-sm"
+                            src={user.photo}
+                            alt={`${user.firstName} ${user.lastName}`}
+                            onError={(e) => {
+                              if (
+                                !user.photo ||
+                                user.photo.includes("randomuser.me")
+                              ) {
+                                e.target.src = `https://ui-avatars.com/api/?name=${user.firstName}+${user.lastName}&background=random`;
+                              }
+                            }}
+                          />
+                          {user.isVerified && (
+                            <div className="absolute -bottom-1 -right-1 bg-green-500 rounded-full p-1 shadow-sm">
+                              <svg
+                                className="h-3 w-3 text-white"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            </div>
+                          )}
+                        </div>
+                        <div className="ml-4">
+                          <div className="text-sm font-semibold text-slate-900 dark:text-white">
+                            {user.firstName} {user.lastName}
                           </div>
-                          <div className="ml-4">
-                            <div className="text-sm font-semibold text-slate-900 dark:text-white">
-                              {user.firstName} {user.lastName}
-                            </div>
-                            <div className="text-xs text-slate-500 dark:text-slate-400">
-                              {user.orgIdNumber}
-                            </div>
+                          <div className="text-xs text-slate-500 dark:text-slate-400">
+                            {user.orgIdNumber}
                           </div>
                         </div>
-                      </td>
-                      <td className="px-6 py-5 whitespace-nowrap">
-                        <div className="text-sm text-slate-900 dark:text-white">{user.email}</div>
-                        <div className="text-sm text-slate-500 dark:text-slate-400">{user.phone}</div>
-                      </td>
-                      <td className="px-6 py-5 whitespace-nowrap">
-                        <span
-                          className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                            user.role === "admin"
-                              ? "bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-200"
-                              : user.role === "company_admin"
-                              ? "bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200"
-                              : user.role === "employee"
-                              ? "bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-200"
-                              : "bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-200"
-                          }`}
+                      </div>
+                    </td>
+                    <td className="px-6 py-5 whitespace-nowrap">
+                      <div className="text-sm text-slate-900 dark:text-white">{user.email}</div>
+                      <div className="text-sm text-slate-500 dark:text-slate-400">{user.phone}</div>
+                    </td>
+                    <td className="px-6 py-5 whitespace-nowrap">
+                      <span
+                        className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                          user.role === "admin"
+                            ? "bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-200"
+                            : user.role === "company_admin"
+                            ? "bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200"
+                            : user.role === "employee"
+                            ? "bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-200"
+                            : "bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-200"
+                        }`}
+                      >
+                        {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                      </span>
+                    </td>
+                    <td className="px-6 py-5 whitespace-nowrap text-right text-sm font-medium">
+                      <div className="flex justify-end space-x-2">
+                        <button
+                          onClick={() => handleEditClick(user)}
+                          disabled={loading.modal}
+                          className="inline-flex items-center px-3 py-1.5 border border-slate-300 dark:border-slate-600 shadow-sm text-sm font-medium rounded-lg text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
                         >
-                          {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
-                        </span>
-                      </td>
-                      <td className="px-6 py-5 whitespace-nowrap text-right text-sm font-medium">
-                        <div className="flex justify-end space-x-2">
-                          <button
-                            onClick={() => handleEditClick(user)}
-                            disabled={loading.modal}
-                            className="inline-flex items-center px-3 py-1.5 border border-slate-300 dark:border-slate-600 shadow-sm text-sm font-medium rounded-lg text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4 mr-1.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
                           >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-4 w-4 mr-1.5"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                              />
-                            </svg>
-                            Edit
-                          </button>
-                          <button
-                            onClick={() => handleDeleteClick(user)}
-                            disabled={loading.delete}
-                            className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                            />
+                          </svg>
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDeleteClick(user)}
+                          disabled={loading.delete}
+                          className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4 mr-1.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
                           >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-4 w-4 mr-1.5"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                              />
-                            </svg>
-                            Delete
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            />
+                          </svg>
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="bg-slate-10 dark:bg-slate-700 px-6 pt-5 pb-4 flex items-center justify-between border-t border-slate-200 dark:border-slate-600">
+            <div className="text-xs text-slate-600 dark:text-slate-400">
+              Showing <span className="font-mono font-medium">1</span> to{" "}
+              <span className="font-mono">10</span> of{" "}
+              <span className="font-mono font-medium">{users.length}</span> users
             </div>
-            <div className="bg-slate-10 dark:bg-slate-700 px-6 pt-5 pb-4 flex items-center justify-between border-t border-slate-200 dark:border-slate-600">
-              <div className="text-xs text-slate-600 dark:text-slate-400">
-                Showing <span className="font-mono font-medium">1</span> to{" "}
-                <span className="font-mono">10</span> of{" "}
-                <span className="font-mono font-medium">{users.length}</span> users
-              </div>
-              <div className="flex space-x-3 text-xs">
-                <button className="px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-3xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 disabled:opacity-50">
-                  Previous
-                </button>
-                <button className="px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-3xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 disabled:opacity-50">
-                  Next
-                </button>
-              </div>
+            <div className="flex space-x-3 text-xs">
+              <button className="px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-3xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 disabled:opacity-50">
+                Previous
+              </button>
+              <button className="px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-3xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 disabled:opacity-50">
+                Next
+              </button>
             </div>
           </div>
-        )}
+        </div>
 
         {editModalOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity duration-300">
