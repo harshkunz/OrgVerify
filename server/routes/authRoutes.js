@@ -1,8 +1,6 @@
 const express = require('express'); 
-const { googleOAuthCallback, register, verifyEmail, login, verifyLogin, forgotPassword, verifyResetCode, resetPassword,  getMe} =  require('../controllers/authController.js');
+const { googleOAuthCallback, register, verifyEmail, login, verifyLogin, forgotPassword, verifyResetCode, resetPassword,  getMe, logoutUser} =  require('../controllers/authController.js');
 const { authenticateUser } = require('../middleware/authMiddleware');
-const User = require('../models/User');
-const Admin = require('../models/Admin');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const passport = require('../utils/passport.js');
@@ -11,6 +9,8 @@ const passport = require('../utils/passport.js');
 // Step 1
 router.post('/register', register);
 router.post('/verify-email', verifyEmail);
+
+router.get("/logout", logoutUser);
 
 
 // Login routes
@@ -33,29 +33,9 @@ router.post("/verify-reset-code", verifyResetCode);
 router.post("/reset-password", resetPassword);
 
 
+// Get Current (User / Admin)
+router.get('/me', authenticateUser, getMe);
 
-router.get('/me', authenticateUser, async (req, res) => {
-  try {
-    let user;
-    
-    if (req.user.modelType === 'Admin') {
-      user = await Admin.findById(req.user._id).select('-password');
-    } else {
-      user = await User.findById(req.user._id).select('-password');
-    }
-
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    res.json({
-      ...user.toObject(),
-      modelType: req.user.modelType
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
 
 // In your password update endpoint
 router.put('/settings/password', authenticateUser, async (req, res) => {
@@ -121,10 +101,6 @@ router.put('/settings/password', authenticateUser, async (req, res) => {
     });
   }
 });
-
-
-// Add this route AFTER other routes
-router.get('/me', authenticateUser, getMe);
 
 
 

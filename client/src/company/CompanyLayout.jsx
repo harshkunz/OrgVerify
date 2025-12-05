@@ -38,7 +38,7 @@ const CompanyLayout = ({ children }) => {
           }),
         ]);
 
-        setCurrentUser(userRes.data);
+        setCurrentUser(userRes.data?.user || null);
         if (companiesRes.data.success && companiesRes.data.data.length > 0) {
           setCompany(companiesRes.data.data[0]);
         }
@@ -124,7 +124,7 @@ const CompanyLayout = ({ children }) => {
           </button>
           <div className="hidden md:flex items-center gap-2">
             <span className="text-gray-700 dark:text-gray-300">
-              {currentUser.firstName} {currentUser.lastName}
+              {`${currentUser?.firstName || ""} ${currentUser?.lastName || ""}`.trim()}
             </span>
             <img
               src={currentUser.photo || "/default-avatar.png"}

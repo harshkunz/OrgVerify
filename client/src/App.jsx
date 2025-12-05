@@ -27,11 +27,25 @@ axios.defaults.withCredentials = true;
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
 
+  const authUrl = import.meta.env.VITE_AUTH_ROUTE;
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setCurrentUser(token);
-    }
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      try {
+        const res = await axios.get(`${authUrl}/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        // server responds with { success: true, user: { ... } }
+        setCurrentUser(res.data?.user || null);
+      } catch (err) {
+        localStorage.removeItem("token");
+        setCurrentUser(null);
+      }
+    };
+
+    checkAuth();
   }, []);
 
   return (
@@ -68,7 +82,7 @@ const App = () => {
         <Route 
           path="/admin/login" 
           element={
-            <RequireGuest currentUser={currentUser}>
+            <RequireGuest currentUser={currentUser} forAdmin={true}>
               <AdminLogin setCurrentUser={setCurrentUser} />
             </RequireGuest>
           } 

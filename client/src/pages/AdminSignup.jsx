@@ -249,10 +249,10 @@ const AdminSignup = () => {
   const handleAutoFill = () => {
     setFormData({
       firstName: "John",
-      lastName: "Doe",
-      email: `admin${Date.now()}@example.com`,
-      password: "Admin@123",
-      confirmPassword: "Admin@123",
+      lastName: "Lee",
+      email: `admin$xyz@example.com`,
+      password: "Admin123@",
+      confirmPassword: "Admin123@",
       gender: "male",
       role: "admin",
     });

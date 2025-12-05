@@ -249,6 +249,29 @@ const validateCaptcha = async (token) => {
 }
 
 
+
+exports.logoutUser = async (req, res) => {
+  try {
+    res.clearCookie("userToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "User logout successful",
+    });
+  } catch (error) {
+    console.error("Logout error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong during logout",
+    });
+  }
+};
+
+
 // Google OAuth Login
 exports.googleOAuthCallback = async (req, res) => {
   try {
@@ -452,36 +475,46 @@ exports.resetPassword = async (req, res) => {
 };
 
 
-// Get Current User
+// combine for user and admin
 exports.getMe = async (req, res) => {
   try {
-    // req.user is set by authMiddleware
     const User = require('../models/User');
-    const user = await User.findById(req.user.userId).select('-password');
-    
+    const Admin = require('../models/Admin');
+
+    let user;
+
+    // Check which model the token belongs to
+    if (req.user.modelType === 'Admin') {
+      user = await Admin.findById(req.user._id).select('-password');
+    } else {
+      user = await User.findById(req.user._id).select('-password');
+    }
+
     if (!user) {
       return res.status(404).json({
         success: false,
-        error: 'User not found'
+        error: 'User not found',
       });
     }
 
-    res.json({
+    // Send unified response for frontend
+    res.status(200).json({
       success: true,
       user: {
         id: user._id,
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
         email: user.email,
-        name: user.name,
-        orgIdNumber: user.orgIdNumber,
-        isVerified: user.isVerified,
-        role: user.role || 'user'
-      }
+        orgIdNumber: user.orgIdNumber || null,
+        isVerified: user.isVerified || false,
+        role: req.user.modelType || user.role || 'User',
+      },
     });
   } catch (error) {
-    console.error('Get me error:', error);
+    console.error('Get Me Error:', error);
     res.status(500).json({
       success: false,
-      error: 'Server error'
+      error: 'Server error',
     });
   }
 };
