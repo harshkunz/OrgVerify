@@ -157,14 +157,10 @@ const Notifications = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ type: "spring", damping: 20 }}
             className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-xl shadow-xl ring-1 ring-black/10 dark:ring-gray-600 z-50"
           >
             <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-              <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
+              <h2 className="text-sm text-md text-gray-800 dark:text-white">
                 Notifications {unreadCount > 0 && `(${unreadCount})`}
               </h2>
               <div className="flex space-x-2">
@@ -188,11 +184,11 @@ const Notifications = () => {
 
             <div className="max-h-96 overflow-y-auto">
               {error && (
-                <div className="p-4 text-center text-red-500 dark:text-red-400">
-                  {error}
+                <div className="p-4 mt-2 text-sm text-center text-red-500 dark:text-red-400">
+                  {error} 
                   <button
                     onClick={fetchNotifications}
-                    className="ml-2 text-blue-500 hover:underline"
+                    className="ml-2 font-semibold text-xs p-1 rounded-3xl mt-2 text-blue-400 hover:text-blue-600"
                   >
                     Retry
                   </button>
@@ -215,7 +211,7 @@ const Notifications = () => {
                   </div>
                 ))
               ) : notifications.length === 0 ? (
-                <div className="p-4 text-center text-gray-500 dark:text-gray-400">
+                <div className="pb-4 text-xs text-center text-gray-500 dark:text-gray-400">
                   No new notifications
                 </div>
               ) : (
