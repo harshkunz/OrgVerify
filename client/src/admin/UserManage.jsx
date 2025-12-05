@@ -6,8 +6,8 @@ const UserManage = () => {
   const [active, setActive] = useState('create');
 
   return (
-    <div className="p-4">
-        <div className="flex gap-3 mb-4">
+    <div className="pb-4 pt-5">
+        <div className="flex gap-3 mb-3">
             <button
                 onClick={() => setActive('create')}
                 className={`px-6 py-2.5 text-xs rounded-3xl shadow-lg flex items-center justify-center 

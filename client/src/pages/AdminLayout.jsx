@@ -237,35 +237,43 @@ const AdminLayout = ({ children }) => {
       {showChat && (
         <div
           ref={chatRef}
-          className="fixed bottom-4 right-4 z-50 w-full max-w-2xl h-[70vh] bg-white dark:bg-gray-800 rounded-xl shadow-2xl flex flex-col border dark:border-gray-700"
+          className="fixed bottom-5 right-5 z-50 w-full max-w-3xl
+                    h-[460px] sm:h-[560px]
+                    bg-white dark:bg-gray-900
+                    rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700
+                    flex flex-col overflow-hidden"
         >
-          <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-t-xl">
-            <h3 className="font-semibold text-lg">Admin Chat</h3>
+          {/* Header */}
+          <div className="flex items-center justify-between px-4 py-3
+                          bg-gradient-to-r from-blue-600 via-indigo-500 to-fuchsia-500
+                          text-white">
+            <h3 className="text-sm ">Admin Chat</h3>
             <div className="flex gap-2">
               <button
                 onClick={() => setChatMinimized(!chatMinimized)}
-                className="p-1 hover:bg-black/10 rounded-md"
+                className="p-1 hover:bg-white/10 rounded-md transition-colors"
               >
-                <ChevronDown className="w-5 h-5" />
+                <ChevronDown className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setShowChat(false)}
-                className="p-1 hover:bg-black/10 rounded-md"
+                className="p-1 hover:bg-white/10 rounded-md transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
           </div>
 
+          {/* Body (ChatPage) */}
           <div
-            className={`flex-1 overflow-hidden transition-all duration-300 ${
-              chatMinimized ? "h-0" : "h-full"
-            }`}
+            className={`flex-1 bg-gray-50 dark:bg-gray-950 transition-[max-height,opacity] duration-300
+                        ${chatMinimized ? "max-h-0 opacity-0" : "max-h-full opacity-100"}`}
           >
             <ChatPage currentUser={currentUser} />
           </div>
         </div>
       )}
+
     </div>
   );
 };
