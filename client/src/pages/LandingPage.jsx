@@ -178,7 +178,7 @@ const LandingPage = () => {
         <div className="relative flex flex-col md:flex-row justify-center items-center md:gap-0 gap-6 mt-12 mb-4">
           {/* Card 1 */}
           <div
-            className="relative z-10 md:-mr-2 w-85 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-blue-200 dark:border-blue-800 
+            className="relative z-10 md:mr-4 w-85 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-blue-200 dark:border-blue-800 
                       hover:scale-105 transform transition-transform duration-300 ease-in-out cursor-pointer"
           >
             <div className="w-14 h-14 dark:bg-blue-900/40 rounded-2xl flex items-center justify-center mx-auto mb-5">
@@ -198,7 +198,7 @@ const LandingPage = () => {
 
           {/* Card 2 */}
           <div
-            className="relative z-20 md:-mr-2 w-85 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-green-200 dark:border-green-800 
+            className="relative z-20 md:mr-4 w-85 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-green-200 dark:border-green-800 
                       hover:scale-105 transform transition-transform duration-300 ease-in-out cursor-pointer"
           >
             <div className="w-14 h-14 dark:bg-green-900/40 rounded-2xl flex items-center justify-center mx-auto mb-5">
@@ -218,7 +218,7 @@ const LandingPage = () => {
 
           {/* Card 3 */}
           <div
-            className="relative z-30 md:-mr-2 w-85 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-purple-200 dark:border-purple-800 
+            className="relative z-30 md:mr-4 w-85 p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-2 border-purple-200 dark:border-purple-800 
                       hover:scale-105 transform transition-transform duration-300 ease-in-out cursor-pointer"
           >
             <div className="w-14 h-14 dark:bg-purple-900/40 rounded-2xl flex items-center justify-center mx-auto mb-5">

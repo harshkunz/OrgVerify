@@ -3,22 +3,15 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
+const authUrl = import.meta.env.VITE_ADMIN_ROUTE;
+const orgIdUrl = import.meta.env.VITE_ORG_ID_ROUTE || "http://localhost:6000";
+const userAuthUrl = import.meta.env.VITE_AUTH_ROUTE;
 
-
-const authUrl = import.meta.env.VITE_ADMIN_ROUTE
-const orgIdUrl = import.meta.env.VITE_ORG_ID_ROUTE || "http://localhost:6000"
-const userAuthUrl= import.meta.env.VITE_AUTH_ROUTE
-const UserManagementPage = () => {
+export default function UserManagementPage() {
   const navigate = useNavigate();
-  // const authUrl = import.meta.env.VITE_ADMIN_ROUTE;
-
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [loading, setLoading] = useState({
-    table: true,
-    modal: false,
-    delete: false,
-  });
+  const [loading, setLoading] = useState({ table: true, modal: false, delete: false });
   const [error, setError] = useState("");
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -37,7 +30,6 @@ const UserManagementPage = () => {
   const [photoFile, setPhotoFile] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Filter users based on search term
   useEffect(() => {
     if (users.length > 0) {
       const filtered = users.filter((user) => {
@@ -63,24 +55,21 @@ const UserManagementPage = () => {
       setLoading((prev) => ({ ...prev, table: true }));
       const token = localStorage.getItem("adminToken");
       const { data } = await axios.get(`${authUrl}/users`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (data.success) {
         setUsers(data.users);
         setFilteredUsers(data.users);
-        setLoading((prev) => ({ ...prev, table: false }));
       } else {
         setError(data.error || "Failed to fetch users");
-        setLoading((prev) => ({ ...prev, table: false }));
       }
     } catch (err) {
       setError(err.response?.data?.error || "Error fetching users");
-      setLoading((prev) => ({ ...prev, table: false }));
       if (err.response?.status === 401) {
         navigate("/login");
       }
+    } finally {
+      setLoading((prev) => ({ ...prev, table: false }));
     }
   };
 
@@ -120,13 +109,8 @@ const UserManagementPage = () => {
         setError("Image size must be less than 2MB");
         return;
       }
-
       setPhotoFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPhotoPreview(reader.result);
-      };
-      reader.readAsDataURL(file);
+      setPhotoPreview(URL.createObjectURL(file));
       setError("");
     }
   };
@@ -135,7 +119,6 @@ const UserManagementPage = () => {
     try {
       setLoading((prev) => ({ ...prev, modal: true }));
       const token = localStorage.getItem("adminToken");
-
       let formData = new FormData();
       if (photoFile) {
         formData.append("photo", photoFile);
@@ -183,9 +166,7 @@ const UserManagementPage = () => {
       const { data } = await axios.delete(
         `${authUrl}/deleteUser/${selectedUser._id}`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
@@ -223,28 +204,51 @@ const UserManagementPage = () => {
     }));
   };
 
+  const renderInput = (field) => (
+    <div className="flex flex-col gap-1">
+      <label className="text-xs font-medium text-slate-700 dark:text-slate-200 mb-1">
+        {field.label}
+      </label>
+      <div className="flex items-center gap-2 rounded-full border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-3 py-2.5 text-xs">
+        <input
+          type={field.type}
+          name={field.name}
+          value={editFormData[field.name]}
+          onChange={handleInputChange}
+          className="w-full bg-transparent outline-none text-xs text-slate-900 dark:text-slate-50 placeholder:text-slate-400"
+          required
+        />
+      </div>
+    </div>
+  );
+
+  const editFields = [
+    { label: "First Name", name: "firstName", type: "text" },
+    { label: "Last Name", name: "lastName", type: "text" },
+    { label: "Email", name: "email", type: "email" },
+    { label: "Phone", name: "phone", type: "tel" },
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 px-4 py-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
+    <div className="flex items-center justify-center pt-2">
+      <div className="w-full max-w-7xl bg-white dark:bg-slate-800 rounded-2xl shadow-md px-6 py-6">
+
+        <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-              User Management
-            </h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-2">
+            <p className="text-slate-500 dark:text-slate-400 text-xs">
               {filteredUsers.length} {filteredUsers.length === 1 ? "user" : "users"} found
             </p>
           </div>
           <div className="relative">
             <input
               type="text"
-              placeholder="Search users..."
+              placeholder="search "
               value={searchTerm}
               onChange={handleSearchChange}
-              className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:text-gray-100 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 w-64"
+              className="pl-10 pr-4 py-2 text-sm border border-slate-200 dark:border-slate-600 rounded-3xl bg-white dark:text-slate-100 dark:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 w-64"
             />
             <svg
-              className="absolute left-3 top-2.5 h-5 w-5 text-gray-400 dark:text-gray-500"
+              className="absolute left-3 top-2.5 h-5 w-5 text-slate-400 dark:text-slate-500"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -261,7 +265,7 @@ const UserManagementPage = () => {
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-100 dark:bg-red-900/50 border-l-4 border-red-500 text-red-700 dark:text-red-200 rounded-lg shadow-sm">
+          <div className="mb-8 p-3 bg-red-100 dark:bg-red-900/50 border-l-5 border-red-600 text-red-700 dark:text-red-200 rounded-xl shadow-sm">
             <div className="flex items-center">
               <svg
                 className="h-5 w-5 mr-3"
@@ -275,7 +279,7 @@ const UserManagementPage = () => {
                   clipRule="evenodd"
                 />
               </svg>
-              <span className="font-medium">{error}</span>
+              <span className="text-xs">{error}</span>
             </div>
           </div>
         )}
@@ -283,41 +287,39 @@ const UserManagementPage = () => {
         {loading.table ? (
           <div className="flex flex-col items-center justify-center h-96">
             <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
-            <p className="mt-4 text-gray-600 dark:text-gray-400">
-              Loading user data...
-            </p>
+            <p className="mt-4 text-slate-600 dark:text-slate-400">Loading user data...</p>
           </div>
         ) : (
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm overflow-hidden border border-slate-100 dark:border-slate-700">
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-gray-50 dark:bg-gray-700">
+              <table className="min-w-full divide-y divide-slate-100 dark:divide-slate-700">
+                <thead className="bg-slate-10 dark:bg-slate-700">
                   <tr>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                       User
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                       Contact
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                       Role
                     </th>
-                    <th className="px-6 py-4 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-right text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody className="bg-white dark:bg-slate-800 divide-y divide-slate-200 dark:divide-slate-700">
                   {filteredUsers.map((user) => (
                     <tr
                       key={user._id}
-                      className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-150"
+                      className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors duration-150"
                     >
                       <td className="px-6 py-5 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-12 w-12 relative">
                             <img
-                              className="h-12 w-12 rounded-full object-cover border-2 border-white dark:border-gray-700 shadow-sm"
+                              className="h-12 w-12 rounded-full object-cover border-2 border-white dark:border-slate-700 shadow-sm"
                               src={user.photo}
                               alt={`${user.firstName} ${user.lastName}`}
                               onError={(e) => {
@@ -346,22 +348,18 @@ const UserManagementPage = () => {
                             )}
                           </div>
                           <div className="ml-4">
-                            <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                            <div className="text-sm font-semibold text-slate-900 dark:text-white">
                               {user.firstName} {user.lastName}
                             </div>
-                            <div className="text-xs text-gray-500 dark:text-gray-400">
+                            <div className="text-xs text-slate-500 dark:text-slate-400">
                               {user.orgIdNumber}
                             </div>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-5 whitespace-nowrap">
-                        <div className="text-sm text-gray-900 dark:text-white">
-                          {user.email}
-                        </div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">
-                          {user.phone}
-                        </div>
+                        <div className="text-sm text-slate-900 dark:text-white">{user.email}</div>
+                        <div className="text-sm text-slate-500 dark:text-slate-400">{user.phone}</div>
                       </td>
                       <td className="px-6 py-5 whitespace-nowrap">
                         <span
@@ -383,7 +381,7 @@ const UserManagementPage = () => {
                           <button
                             onClick={() => handleEditClick(user)}
                             disabled={loading.modal}
-                            className="inline-flex items-center px-3 py-1.5 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-lg text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                            className="inline-flex items-center px-3 py-1.5 border border-slate-300 dark:border-slate-600 shadow-sm text-sm font-medium rounded-lg text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -429,17 +427,17 @@ const UserManagementPage = () => {
                 </tbody>
               </table>
             </div>
-            <div className="bg-gray-50 dark:bg-gray-700 px-6 py-3 flex items-center justify-between border-t border-gray-200 dark:border-gray-600">
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                Showing <span className="font-medium">1</span> to{" "}
-                <span className="font-medium">10</span> of{" "}
-                <span className="font-medium">{users.length}</span> users
+            <div className="bg-slate-10 dark:bg-slate-700 px-6 pt-5 pb-4 flex items-center justify-between border-t border-slate-200 dark:border-slate-600">
+              <div className="text-xs text-slate-600 dark:text-slate-400">
+                Showing <span className="font-mono font-medium">1</span> to{" "}
+                <span className="font-mono">10</span> of{" "}
+                <span className="font-mono font-medium">{users.length}</span> users
               </div>
-              <div className="flex space-x-2">
-                <button className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 disabled:opacity-50">
+              <div className="flex space-x-3 text-xs">
+                <button className="px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-3xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 disabled:opacity-50">
                   Previous
                 </button>
-                <button className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 disabled:opacity-50">
+                <button className="px-3 py-1.5 border border-slate-300 dark:border-slate-600 rounded-3xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 disabled:opacity-50">
                   Next
                 </button>
               </div>
@@ -447,18 +445,15 @@ const UserManagementPage = () => {
           </div>
         )}
 
-        {/* Edit User Modal */}
         {editModalOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity duration-300">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 scale-95 hover:scale-100">
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 scale-95 hover:scale-100">
               <div className="p-6">
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                    Edit User
-                  </h2>
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Edit User</h2>
                   <button
                     onClick={() => setEditModalOpen(false)}
-                    className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
+                    className="text-slate-400 hover:text-slate-500 dark:hover:text-slate-300"
                   >
                     <svg
                       className="h-6 w-6"
@@ -478,7 +473,7 @@ const UserManagementPage = () => {
 
                 <div className="flex flex-col items-center mb-6">
                   <div className="relative group">
-                    <div className="h-24 w-24 rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-lg">
+                    <div className="h-24 w-24 rounded-full overflow-hidden border-4 border-white dark:border-slate-700 shadow-lg">
                       <img
                         src={photoPreview}
                         alt="User"
@@ -516,42 +511,22 @@ const UserManagementPage = () => {
                       />
                     </label>
                   </div>
-                  <span className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                  <span className="text-xs text-slate-500 dark:text-slate-400 mt-2">
                     JPG, PNG (Max 2MB)
                   </span>
                 </div>
 
                 <div className="space-y-4">
-                  {[
-                    { label: "First Name", name: "firstName", type: "text" },
-                    { label: "Last Name", name: "lastName", type: "text" },
-                    { label: "Email", name: "email", type: "email" },
-                    { label: "Phone", name: "phone", type: "tel" },
-                  ].map((field) => (
-                    <div key={field.name}>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        {field.label}
-                      </label>
-                      <input
-                        type={field.type}
-                        name={field.name}
-                        value={editFormData[field.name]}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                        required
-                      />
-                    </div>
-                  ))}
-
+                  {editFields.map((field) => renderInput(field))}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                       Role
                     </label>
                     <select
                       name="role"
                       value={editFormData.role}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNoZXZyb24tZG93biI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ii8+PC9zdmc+')] bg-no-repeat bg-[center_right_1rem]"
+                      className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNoZXZyb24tZG93biI+PHBhdGggZD0ibTYgOSA2IDYgNi02Ii8+PC9zdmc+')] bg-no-repeat bg-[center_right_1rem]"
                     >
                       <option value="user">User</option>
                       <option value="company_admin">Company Admin</option>
@@ -559,9 +534,8 @@ const UserManagementPage = () => {
                       <option value="admin">Admin</option>
                     </select>
                   </div>
-
                   <div className="pt-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                       Verification Status
                     </label>
                     <div className="flex items-center justify-between">
@@ -570,20 +544,16 @@ const UserManagementPage = () => {
                           type="button"
                           onClick={toggleVerification}
                           className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
-                            editFormData.isVerified
-                              ? "bg-green-500"
-                              : "bg-gray-200 dark:bg-gray-600"
+                            editFormData.isVerified ? "bg-green-500" : "bg-slate-200 dark:bg-slate-600"
                           }`}
                         >
                           <span
                             className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                              editFormData.isVerified
-                                ? "translate-x-6"
-                                : "translate-x-1"
+                              editFormData.isVerified ? "translate-x-6" : "translate-x-1"
                             }`}
                           />
                         </button>
-                        <span className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <span className="ml-3 text-sm font-medium text-slate-700 dark:text-slate-300">
                           {editFormData.isVerified ? "Verified" : "Pending"}
                         </span>
                       </div>
@@ -594,7 +564,7 @@ const UserManagementPage = () => {
                             name="verificationCode"
                             value={editFormData.verificationCode}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                            className="w-full px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
                             placeholder="Verification code"
                           />
                         </div>
@@ -608,7 +578,7 @@ const UserManagementPage = () => {
                     type="button"
                     onClick={() => setEditModalOpen(false)}
                     disabled={loading.modal}
-                    className="px-5 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 transition-colors duration-200"
+                    className="px-5 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50 transition-colors duration-200"
                   >
                     Cancel
                   </button>
@@ -652,18 +622,17 @@ const UserManagementPage = () => {
           </div>
         )}
 
-        {/* Delete Confirmation Modal */}
         {deleteModalOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity duration-300">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300">
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300">
               <div className="p-6">
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
                     Confirm Deletion
                   </h2>
                   <button
                     onClick={() => setDeleteModalOpen(false)}
-                    className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
+                    className="text-slate-400 hover:text-slate-500 dark:hover:text-slate-300"
                   >
                     <svg
                       className="h-6 w-6"
@@ -684,7 +653,7 @@ const UserManagementPage = () => {
                 <div className="flex items-center mb-6">
                   <div className="flex-shrink-0 h-16 w-16 mr-4 relative">
                     <img
-                      className="h-16 w-16 rounded-full object-cover border-2 border-white dark:border-gray-700 shadow-sm"
+                      className="h-16 w-16 rounded-full object-cover border-2 border-white dark:border-slate-700 shadow-sm"
                       src={selectedUser?.photo}
                       alt={`${selectedUser?.firstName} ${selectedUser?.lastName}`}
                       onError={(e) => {
@@ -708,16 +677,15 @@ const UserManagementPage = () => {
                     )}
                   </div>
                   <div>
-                    <p className="text-gray-700 dark:text-gray-300">
+                    <p className="text-slate-700 dark:text-slate-300">
                       Are you sure you want to delete{" "}
                       <span className="font-semibold">
                         {selectedUser?.firstName} {selectedUser?.lastName}
                       </span>
                       ?
                     </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                      This action cannot be undone. All associated data will be
-                      permanently removed.
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                      This action cannot be undone. All associated data will be permanently removed.
                     </p>
                   </div>
                 </div>
@@ -726,7 +694,7 @@ const UserManagementPage = () => {
                   <button
                     onClick={() => setDeleteModalOpen(false)}
                     disabled={loading.delete}
-                    className="px-5 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 transition-colors duration-200"
+                    className="px-5 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50 transition-colors duration-200"
                   >
                     Cancel
                   </button>
@@ -771,6 +739,4 @@ const UserManagementPage = () => {
       </div>
     </div>
   );
-};
-
-export default UserManagementPage;
+}

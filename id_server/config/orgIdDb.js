@@ -12,7 +12,7 @@ const connectDB = async () => {
     await mongoose.connect(connectionString, {
       serverSelectionTimeoutMS: 15000,
       socketTimeoutMS: 45000,
-      family: 4, // Use IPv4
+      family: 4,
     });
     console.log("Organization ID MongoDB connected successfully ");
   } catch (error) {

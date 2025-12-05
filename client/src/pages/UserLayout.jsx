@@ -16,7 +16,7 @@ import ThemeToogler from "../pages/ThemeToogler";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import ChatPage from "./UserChatPage";
+import ChatPage from "../user/UserChatPage";
 
 
 const authUrl = import.meta.env.VITE_AUTH_ROUTE;

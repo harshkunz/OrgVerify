@@ -46,6 +46,7 @@ router.put('/editUser/:id',
   roleMiddleware(["admin"]),
 
     editUserAccount);
+    
 router.delete(
   "/deleteUser/:userId",
   authenticateUser,

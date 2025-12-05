@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import {
   Menu,
   X,
@@ -208,11 +209,17 @@ const AdminLayout = ({ children }) => {
         onMouseLeave={() => setSidebarOpen(false)}
       >
         <nav className="flex flex-col justify-center flex-1 space-y-2 px-2 text-gray-700 dark:text-gray-300">
-          <SidebarItem icon={<Home />} text="Dashboard" />
-          <SidebarItem icon={<Users />} text="Users & Organizations" />
+          <Link to="/admin/dashboard">
+            <SidebarItem icon={<Home />} text="Dashboard" />
+          </Link>
+          <Link to="/admin/users">
+            <SidebarItem icon={<Users />} text="Users & Organizations" />
+          </Link>
           <SidebarItem icon={<BarChart />} text="Analytics" />
           <SidebarItem icon={<FileCheck />} text="Verifications" />
-          <SidebarItem icon={<Settings />} text="Settings" />
+          <Link to="/admin/setting">
+            <SidebarItem icon={<Settings />} text="Settings" />
+          </Link>
           <SidebarItem icon={<HelpCircle />} text="Support" />
         </nav>
       </div>
