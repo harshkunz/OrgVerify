@@ -6,17 +6,23 @@ import dotenv from 'dotenv';
 import connectDB from './config/orgIdDb.js';
 import orgIdRouter from './routes/orgIdRoutes.js';
 import Counter from './models/Counter.js';
-dotenv.config()
 
-const PORT =  process.env.PORT || 7000;
+dotenv.config();
+
+const PORT = process.env.PORT || 7000;
+const NODE_ENV = process.env.NODE_ENV || 'development';
+
+// Parse CORS origins from environment variable
+const corsOriginStr = process.env.CORS_ORIGIN;
+const corsOrigins = corsOriginStr 
+  ? corsOriginStr.split(',').map(origin => origin.trim())
+  : ["http://localhost:5173", "http://localhost:5000"];
+
 const app = express();
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:5000",
-    ],
+    origin: corsOrigins,
     credentials: true,
   })
 );
@@ -46,7 +52,7 @@ const initializeCounter = async () => {
 app.listen(PORT, () => {
   connectDB();
   initializeCounter();
-  console.log(`Organization ID Server running on port http://localhost:${PORT}`);
+  console.log(`Organization ID Server running on port ${PORT} (${NODE_ENV})`);
 });
 
 
