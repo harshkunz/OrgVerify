@@ -189,6 +189,9 @@ export const createOrgID = async (req, res) => {
       });
     }
 
+    // if orgIdNumber length less than 16, then add leading zeros
+    const paddedOrgIdNumber = orgIdNumber.toString().padStart(16, '0');
+
     const existingID = await OrgID.findOne({
       firstName: firstName.trim(),
       middleName: middleName?.trim() || '', // Handle optional middleName

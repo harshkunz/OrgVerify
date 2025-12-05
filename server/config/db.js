@@ -11,7 +11,7 @@ const  connectDB = async () => {
     await mongoose.connect(connectionString, {
       serverSelectionTimeoutMS: 15000,
       socketTimeoutMS: 45000,
-      family: 4, // Use IPv4
+      family: 4,
     });
     console.log('MongoDB connected successfully ');
   } catch (error) {
