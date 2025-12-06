@@ -2,7 +2,7 @@
 OrgVerify enables secure and verified communication between organizations and clients. It assigns each user a unique Org_ID and ensures complete protection of all client data. The system uses a microservices architecture and a modern React interface to provide fast, reliable data analysis and management.
 
 <p align="center">
-  <img src="static/header.png" alt="_picture" height="200">
+  <img src="static/header.png" alt="_picture" height="500">
 </p>
 
 
