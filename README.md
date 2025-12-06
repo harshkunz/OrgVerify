@@ -147,7 +147,7 @@ Create server/.env
   RECAPTCHA_SECRET_KEY=
   ```
   Create id_server/.env
-  ```bash
+```bash
   MONGODB_ORG_ID_URI=
   PORT=7000
   NODE_ENV=development/production
