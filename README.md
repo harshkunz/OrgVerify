@@ -86,25 +86,25 @@ OrgVerify enables secure and verified communication between organizations and cl
 ### ☐ Installation
 1. **Client**
 ```bash
-cd client
-npm install
-npm run dev
+  cd client
+  npm install
+  npm run dev
 ```
 Runs on http://localhost:5173
 
 2. **Server**
 ```bash
-cd server
-npm install
-npm run dev
+  cd server
+  npm install
+  npm run dev
 ```
 Runs on http://localhost:5000
 
 3. **Id Server**
 ```bash
-cd id_server
-npm install
-npm run dev
+  cd id_server
+  npm install
+  npm run dev
 ```
 Runs on http://localhost:7000
 
@@ -112,52 +112,52 @@ Runs on http://localhost:7000
 
 Create client/.env
 ```bash
-VITE_BACKEND_URL=
-VITE_ORG_ID_URL=
-
-VITE_AUTH_ROUTE=
-VITE_ADMIN_ROUTE=
-VITE_CHAT_ROUTE=
-
-VITE_RECAPTCHA_SITE_KEY=
+  VITE_BACKEND_URL=
+  VITE_ORG_ID_URL=
+  
+  VITE_AUTH_ROUTE=
+  VITE_ADMIN_ROUTE=
+  VITE_CHAT_ROUTE=
+  
+  VITE_RECAPTCHA_SITE_KEY=
 ```
 Create server/.env
 ```bash
-MONGO_URI=
-PORT=5000
-NODE_ENV=development/production
-JWT_SECRET=
-JWT_EXPIRE=
-
-ORG_ID_SERVER_URL=
-CLIENT_URL=
-
-GOOGLE_CLIENT_ID=your_google_client_id_here
-GOOGLE_CLIENT_SECRET=your_google_client_secret_here
-
-APP_NAME=
-ADMIN_EMAIL=admin@orgverify.com
-EMAIL_SERVICE=Gmail
-EMAIL_USER=user@gmail.com
-EMAIL_PASS=
-SUPPORT_EMAIL=support@gmail.com
-CODE_EXPIRY_HOURS=24
-
-RESET_PAGE_URL=
-RECAPTCHA_SECRET_KEY=
-```
-Create id_server/.env
-```bash
-MONGODB_ORG_ID_URI=
-PORT=7000
-NODE_ENV=development/production
-CORS_ORIGIN=_,_
+  MONGO_URI=
+  PORT=5000
+  NODE_ENV=development/production
+  JWT_SECRET=
+  JWT_EXPIRE=
+  
+  ORG_ID_SERVER_URL=
+  CLIENT_URL=
+  
+  GOOGLE_CLIENT_ID=your_google_client_id_here
+  GOOGLE_CLIENT_SECRET=your_google_client_secret_here
+  
+  APP_NAME=
+  ADMIN_EMAIL=admin@orgverify.com
+  EMAIL_SERVICE=Gmail
+  EMAIL_USER=user@gmail.com
+  EMAIL_PASS=
+  SUPPORT_EMAIL=support@gmail.com
+  CODE_EXPIRY_HOURS=24
+  
+  RESET_PAGE_URL=
+  RECAPTCHA_SECRET_KEY=
+  ```
+  Create id_server/.env
+  ```bash
+  MONGODB_ORG_ID_URI=
+  PORT=7000
+  NODE_ENV=development/production
+  CORS_ORIGIN=_,_
 ```
 
 ### ☐ Contributing
 Open to contributions!
 ```bash
-git clone https://github.com/harshkunz/OrgVerify
+  git clone https://github.com/harshkunz/OrgVerify
 ```
 - Fork the repository  
 - Create a new branch (`git checkout -b feature-name`)  
